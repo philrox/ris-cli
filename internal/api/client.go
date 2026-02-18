@@ -132,7 +132,7 @@ func validateDocURL(rawURL string) error {
 	}
 	host := strings.ToLower(u.Hostname())
 	if !AllowedHosts[host] {
-		return fmt.Errorf("Host %q nicht erlaubt (erlaubt: data.bka.gv.at, www.ris.bka.gv.at, ris.bka.gv.at)", host)
+		return fmt.Errorf("Host %q nicht erlaubt", host)
 	}
 	return nil
 }

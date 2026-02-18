@@ -38,7 +38,7 @@ var prefixRoutes = []struct {
 	{"LTI", DocumentRoute{URLPath: "LrT", Endpoint: "Landesrecht", Applikation: "LrKons"}},
 	{"LVB", DocumentRoute{URLPath: "LrVbg", Endpoint: "Landesrecht", Applikation: "LrKons"}},
 	{"LWI", DocumentRoute{URLPath: "LrW", Endpoint: "Landesrecht", Applikation: "LrKons"}},
-	{"JWR", DocumentRoute{URLPath: "Vwgh", Endpoint: "Judikatur", Applikation: "Justiz"}},
+	{"JWR", DocumentRoute{URLPath: "Vwgh", Endpoint: "Judikatur", Applikation: "Vwgh"}},
 	{"JFR", DocumentRoute{URLPath: "Vfgh", Endpoint: "Judikatur", Applikation: "Vfgh"}},
 	{"JFT", DocumentRoute{URLPath: "Vfgh", Endpoint: "Judikatur", Applikation: "Vfgh"}},
 	{"JWT", DocumentRoute{URLPath: "Justiz", Endpoint: "Judikatur", Applikation: "Justiz"}},

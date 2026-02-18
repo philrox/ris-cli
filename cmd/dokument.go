@@ -37,13 +37,6 @@ func init() {
 
 var docNumberRegex = regexp.MustCompile(`^[A-Z][A-Z0-9_]+$`)
 
-// allowedHosts for SSRF protection.
-var allowedHosts = map[string]bool{
-	"data.bka.gv.at":     true,
-	"www.ris.bka.gv.at":  true,
-	"ris.bka.gv.at":      true,
-}
-
 func validateDocNumber(nr string) error {
 	if len(nr) < 5 || len(nr) > 50 {
 		return fmt.Errorf("Dokumentnummer muss 5-50 Zeichen lang sein, erhalten: %d", len(nr))
@@ -63,8 +56,8 @@ func validateURL(rawURL string) error {
 		return fmt.Errorf("Nur HTTPS-URLs erlaubt, erhalten: %q", u.Scheme)
 	}
 	host := strings.ToLower(u.Hostname())
-	if !allowedHosts[host] {
-		return fmt.Errorf("Host %q nicht erlaubt (erlaubt: data.bka.gv.at, www.ris.bka.gv.at, ris.bka.gv.at)", host)
+	if !api.AllowedHosts[host] {
+		return fmt.Errorf("Host %q nicht erlaubt", host)
 	}
 	return nil
 }
