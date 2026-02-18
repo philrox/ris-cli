@@ -36,14 +36,6 @@ func isVerbose(cmd *cobra.Command) bool {
 	return v
 }
 
-// usePlain returns true if plain text output should be used.
-// This is the case when --plain is set or stdout is not a TTY.
-func usePlain(cmd *cobra.Command) bool {
-	root := cmd.Root()
-	p, _ := root.PersistentFlags().GetBool("plain")
-	return p || !isTTY
-}
-
 // IsTTY reports whether stdout is connected to a terminal.
 func IsTTY() bool {
 	return isTTY

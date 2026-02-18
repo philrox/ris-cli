@@ -41,15 +41,20 @@ func Text(w io.Writer, result model.SearchResult) error {
 
 		citation := FormatCitation(doc.Citation)
 		if citation != "" {
-			fmt.Fprintf(w, "    Zitat: %s\n", yellow(citation))
+			fmt.Fprintf(w, "    Zitat: %s\n", citation)
 		}
 
 		if doc.Geschaeftszahl != "" {
 			fmt.Fprintf(w, "    GZ: %s\n", green(doc.Geschaeftszahl))
 		}
 
-		if doc.Citation != nil && doc.Citation.Entscheidungsdatum != "" {
-			fmt.Fprintf(w, "    Datum: %s\n", dim(doc.Citation.Entscheidungsdatum))
+		dates := FormatDates(doc.Citation)
+		if dates != "" {
+			fmt.Fprintf(w, "    Geltung: %s\n", dim(dates))
+		}
+
+		if doc.Citation != nil && doc.Citation.Eli != "" {
+			fmt.Fprintf(w, "    ELI: %s\n", dim(doc.Citation.Eli))
 		}
 
 		if doc.Leitsatz != "" {
@@ -83,7 +88,16 @@ func TextDocument(w io.Writer, doc model.Document, content string) error {
 
 	citation := FormatCitation(doc.Citation)
 	if citation != "" {
-		fmt.Fprintf(w, "Zitat: %s\n", yellow(citation))
+		fmt.Fprintf(w, "Zitat: %s\n", citation)
+	}
+
+	dates := FormatDates(doc.Citation)
+	if dates != "" {
+		fmt.Fprintf(w, "Geltung: %s\n", dim(dates))
+	}
+
+	if doc.Citation != nil && doc.Citation.Eli != "" {
+		fmt.Fprintf(w, "ELI: %s\n", dim(doc.Citation.Eli))
 	}
 
 	if content != "" {
