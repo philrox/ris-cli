@@ -1,0 +1,83 @@
+package cmd
+
+import (
+	"fmt"
+	"os"
+	"strings"
+
+	"github.com/philrox/ris-cli/internal/api"
+	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/ris-cli/internal/format"
+	"github.com/philrox/ris-cli/internal/parser"
+	"github.com/spf13/cobra"
+)
+
+var landesrechtCmd = &cobra.Command{
+	Use:   "landesrecht",
+	Short: "Landesgesetze durchsuchen",
+	Long: `Österreichische Landesgesetze (Landesrecht) durchsuchen.
+
+Beispiele:
+  ris landesrecht --search "Bauordnung" --state salzburg
+  ris landesrecht --title "Raumordnung" --state wien --json`,
+	RunE: runLandesrecht,
+}
+
+func init() {
+	f := landesrechtCmd.Flags()
+	f.StringP("search", "s", "", "Volltextsuche")
+	f.StringP("title", "t", "", "Suche in Gesetzestitel")
+	f.String("state", "", "Bundesland (z.B. wien, salzburg, tirol)")
+
+	rootCmd.AddCommand(landesrechtCmd)
+}
+
+func runLandesrecht(cmd *cobra.Command, args []string) error {
+	search, _ := cmd.Flags().GetString("search")
+	title, _ := cmd.Flags().GetString("title")
+	state, _ := cmd.Flags().GetString("state")
+
+	// At least one required.
+	if search == "" && title == "" && state == "" {
+		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --title oder --state erforderlich")
+		os.Exit(2)
+	}
+
+	client := newClient(cmd)
+	params := api.NewParams()
+	params.Set("Applikation", "LrKons")
+
+	if search != "" {
+		params.Set("Suchworte", search)
+	}
+	if title != "" {
+		params.Set("Titel", title)
+	}
+
+	if state != "" {
+		paramName, ok := constants.LandesrechtStates[strings.ToLower(state)]
+		if !ok {
+			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --state Wert %q\n", state)
+			fmt.Fprintln(os.Stderr, "Gültige Bundesländer: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland")
+			os.Exit(2)
+		}
+		params.Set(paramName, "true")
+	}
+
+	setPageParams(cmd, params)
+
+	body, err := client.Search("Landesrecht", params)
+	if err != nil {
+		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
+	}
+
+	result, err := parser.ParseSearchResponse(body)
+	if err != nil {
+		return fmt.Errorf("Antwort konnte nicht verarbeitet werden: %w", err)
+	}
+
+	if useJSON(cmd) {
+		return format.JSON(os.Stdout, result)
+	}
+	return format.Text(os.Stdout, result)
+}
