@@ -199,7 +199,9 @@ func executeSonstigeSearch(cmd *cobra.Command, params *api.Params) error {
 	setPageParams(cmd, params)
 
 	client := newClient(cmd)
+	s := startSpinner(cmd, "Suche in Sonstige Rechtsquellen...")
 	body, err := client.Search("Sonstige", params)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
 	}

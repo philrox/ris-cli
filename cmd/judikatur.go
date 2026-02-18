@@ -80,7 +80,9 @@ func runJudikatur(cmd *cobra.Command, args []string) error {
 
 	setPageParams(cmd, params)
 
+	s := startSpinner(cmd, "Suche in Judikatur...")
 	body, err := client.Search("Judikatur", params)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
 	}

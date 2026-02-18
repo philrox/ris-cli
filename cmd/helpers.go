@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/briandowns/spinner"
 	"github.com/philrox/ris-cli/internal/api"
 	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/ris-cli/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -32,6 +34,37 @@ func isVerbose(cmd *cobra.Command) bool {
 	root := cmd.Root()
 	v, _ := root.PersistentFlags().GetBool("verbose")
 	return v
+}
+
+// usePlain returns true if plain text output should be used.
+// This is the case when --plain is set or stdout is not a TTY.
+func usePlain(cmd *cobra.Command) bool {
+	root := cmd.Root()
+	p, _ := root.PersistentFlags().GetBool("plain")
+	return p || !isTTY
+}
+
+// IsTTY reports whether stdout is connected to a terminal.
+func IsTTY() bool {
+	return isTTY
+}
+
+// startSpinner starts a progress spinner on stderr if conditions allow it.
+// Returns nil if spinner should not be shown (JSON mode, quiet, non-TTY).
+func startSpinner(cmd *cobra.Command, msg string) *spinner.Spinner {
+	if !isTTY || useJSON(cmd) || quiet {
+		return nil
+	}
+	s := ui.NewSpinner(msg)
+	s.Start()
+	return s
+}
+
+// stopSpinner stops a running spinner. Safe to call with nil.
+func stopSpinner(s *spinner.Spinner) {
+	if s != nil {
+		s.Stop()
+	}
 }
 
 // setPageParams sets pagination parameters from the root command's global flags.

@@ -105,7 +105,9 @@ func runRegvorl(cmd *cobra.Command, args []string) error {
 
 	setPageParams(cmd, params)
 
+	s := startSpinner(cmd, "Suche in Regierungsvorlagen...")
 	body, err := client.Search("Bundesrecht", params)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
 	}

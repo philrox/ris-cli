@@ -77,7 +77,9 @@ func runHistory(cmd *cobra.Command, args []string) error {
 
 	setPageParams(cmd, params)
 
+	s := startSpinner(cmd, "Suche in Änderungshistorie...")
 	body, err := client.Search("History", params)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
 	}

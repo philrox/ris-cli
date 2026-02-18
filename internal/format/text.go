@@ -5,7 +5,19 @@ import (
 	"io"
 	"strings"
 
+	"github.com/fatih/color"
 	"github.com/philrox/ris-cli/internal/model"
+)
+
+// Color functions for styled output.
+var (
+	bold       = color.New(color.Bold).SprintFunc()
+	boldWhite  = color.New(color.Bold, color.FgHiWhite).SprintFunc()
+	cyan       = color.New(color.FgCyan).SprintFunc()
+	yellow     = color.New(color.FgYellow).SprintFunc()
+	green      = color.New(color.FgGreen).SprintFunc()
+	dim        = color.New(color.Faint).SprintFunc()
+	boldYellow = color.New(color.Bold, color.FgYellow).SprintFunc()
 )
 
 // Text writes search results as human-readable text to the writer.
@@ -16,28 +28,28 @@ func Text(w io.Writer, result model.SearchResult) error {
 	}
 
 	// Header with pagination info.
-	fmt.Fprintf(w, "Ergebnisse: %d gesamt (Seite %d, zeige %d)\n",
-		result.TotalHits, result.Page, len(result.Documents))
-	fmt.Fprintln(w, strings.Repeat("─", 60))
+	fmt.Fprintln(w, bold(fmt.Sprintf("Ergebnisse: %d gesamt (Seite %d, zeige %d)",
+		result.TotalHits, result.Page, len(result.Documents))))
+	fmt.Fprintln(w, dim(strings.Repeat("─", 60)))
 
 	for i, doc := range result.Documents {
-		fmt.Fprintf(w, "\n[%d] %s\n", i+1, docTitle(doc))
+		fmt.Fprintf(w, "\n[%d] %s\n", i+1, boldWhite(docTitle(doc)))
 
 		if doc.Dokumentnummer != "" {
-			fmt.Fprintf(w, "    Nr: %s\n", doc.Dokumentnummer)
+			fmt.Fprintf(w, "    Nr: %s\n", cyan(doc.Dokumentnummer))
 		}
 
 		citation := FormatCitation(doc.Citation)
 		if citation != "" {
-			fmt.Fprintf(w, "    Zitat: %s\n", citation)
+			fmt.Fprintf(w, "    Zitat: %s\n", yellow(citation))
 		}
 
 		if doc.Geschaeftszahl != "" {
-			fmt.Fprintf(w, "    GZ: %s\n", doc.Geschaeftszahl)
+			fmt.Fprintf(w, "    GZ: %s\n", green(doc.Geschaeftszahl))
 		}
 
 		if doc.Citation != nil && doc.Citation.Entscheidungsdatum != "" {
-			fmt.Fprintf(w, "    Datum: %s\n", doc.Citation.Entscheidungsdatum)
+			fmt.Fprintf(w, "    Datum: %s\n", dim(doc.Citation.Entscheidungsdatum))
 		}
 
 		if doc.Leitsatz != "" {
@@ -52,7 +64,7 @@ func Text(w io.Writer, result model.SearchResult) error {
 	fmt.Fprintln(w)
 	if result.HasMore {
 		nextPage := result.Page + 1
-		fmt.Fprintf(w, "Weitere Ergebnisse verfügbar. Nächste Seite: --page %d\n", nextPage)
+		fmt.Fprintln(w, boldYellow(fmt.Sprintf("Weitere Ergebnisse verfügbar. Nächste Seite: --page %d", nextPage)))
 	}
 
 	return nil
@@ -61,22 +73,22 @@ func Text(w io.Writer, result model.SearchResult) error {
 // TextDocument writes a single document with its content as human-readable text.
 func TextDocument(w io.Writer, doc model.Document, content string) error {
 	title := docTitle(doc)
-	fmt.Fprintln(w, title)
-	fmt.Fprintln(w, strings.Repeat("═", len(title)))
+	fmt.Fprintln(w, bold(title))
+	fmt.Fprintln(w, dim(strings.Repeat("═", len(title))))
 	fmt.Fprintln(w)
 
 	if doc.Dokumentnummer != "" {
-		fmt.Fprintf(w, "Dokument: %s\n", doc.Dokumentnummer)
+		fmt.Fprintf(w, "Dokument: %s\n", cyan(doc.Dokumentnummer))
 	}
 
 	citation := FormatCitation(doc.Citation)
 	if citation != "" {
-		fmt.Fprintf(w, "Zitat: %s\n", citation)
+		fmt.Fprintf(w, "Zitat: %s\n", yellow(citation))
 	}
 
 	if content != "" {
 		fmt.Fprintln(w)
-		fmt.Fprintln(w, strings.Repeat("─", 60))
+		fmt.Fprintln(w, dim(strings.Repeat("─", 60)))
 		fmt.Fprintln(w)
 		fmt.Fprintln(w, content)
 	}

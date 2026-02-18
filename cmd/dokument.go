@@ -11,6 +11,7 @@ import (
 	"github.com/philrox/ris-cli/internal/format"
 	"github.com/philrox/ris-cli/internal/model"
 	"github.com/philrox/ris-cli/internal/parser"
+	"github.com/philrox/ris-cli/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -100,7 +101,9 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	// Step 1: Try direct URL from prefix routing table.
 	directURL := model.DirectURLFromPrefix(docNumber)
 	if directURL != "" {
+		s := startSpinner(cmd, "Lade Dokument...")
 		htmlContent, err := client.FetchDocument(directURL)
+		stopSpinner(s)
 		if err == nil {
 			return outputDocumentContent(cmd, docNumber, directURL, htmlContent)
 		}
@@ -117,7 +120,9 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	params.Set("Dokumentnummer", docNumber)
 	params.Set("DokumenteProSeite", "Ten")
 
+	s2 := startSpinner(cmd, "Suche Dokument-URL...")
 	body, err := client.Search(endpoint, params)
+	stopSpinner(s2)
 	if err != nil {
 		return fmt.Errorf("Such-API-Anfrage fehlgeschlagen: %w", err)
 	}
@@ -146,18 +151,27 @@ func runDokument(cmd *cobra.Command, args []string) error {
 		if useJSON(cmd) {
 			return format.JSONDocument(os.Stdout, doc, "")
 		}
-		return format.TextDocument(os.Stdout, doc, "")
+		w, cleanup := ui.NewPagerWriter(!usePager(cmd))
+		defer cleanup()
+		return format.TextDocument(w, doc, "")
 	}
 
 	return fetchAndOutputDocument(cmd, client, htmlURL, docNumber)
 }
 
 func fetchAndOutputDocument(cmd *cobra.Command, client *api.Client, docURL, docNumber string) error {
+	s := startSpinner(cmd, "Lade Dokument...")
 	htmlContent, err := client.FetchDocument(docURL)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("Dokument konnte nicht abgerufen werden: %w", err)
 	}
 	return outputDocumentContent(cmd, docNumber, docURL, htmlContent)
+}
+
+// usePager returns true when pager should be used for document output.
+func usePager(cmd *cobra.Command) bool {
+	return !useJSON(cmd) && !plainOutput && !quiet && !noPager
 }
 
 func outputDocumentContent(cmd *cobra.Command, docNumber, docURL, htmlContent string) error {
@@ -170,6 +184,10 @@ func outputDocumentContent(cmd *cobra.Command, docNumber, docURL, htmlContent st
 		}
 		return format.JSONDocument(os.Stdout, doc, textContent)
 	}
-	fmt.Fprintln(os.Stdout, textContent)
+
+	w, cleanup := ui.NewPagerWriter(!usePager(cmd))
+	defer cleanup()
+
+	fmt.Fprintln(w, textContent)
 	return nil
 }

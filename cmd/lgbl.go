@@ -83,7 +83,9 @@ func runLgbl(cmd *cobra.Command, args []string) error {
 
 	setPageParams(cmd, params)
 
+	s := startSpinner(cmd, "Suche in Landesgesetzblättern...")
 	body, err := client.Search("Landesrecht", params)
+	stopSpinner(s)
 	if err != nil {
 		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
 	}
