@@ -85,11 +85,16 @@ ris bundesrecht --search "Mietrecht" --date 2024-01-15 --json
 |------|-------|------|----------|-----------|-------------|
 | `--search` | `-s` | string | * | `Suchworte` | Full-text search terms |
 | `--title` | `-t` | string | * | `Titel` | Search in law titles |
-| `--paragraph` | | string | * | `Abschnitt.Von/Bis/Typ` | Paragraph number (e.g., "1295") |
+| `--paragraph` | | string | * | `Abschnitt.Von` + `Abschnitt.Bis` + `Abschnitt.Typ` | Paragraph number (e.g., "1295") |
 | `--app` | | enum | | `Applikation` | `brkons` (default), `begut`, `bgblauth`, `erv` |
 | `--date` | | date | | `FassungVom` | Historical version date (YYYY-MM-DD) |
 
 *At least one of the `*` params required.*
+
+**Paragraph handling:** When `--paragraph` is set, ALL THREE API params must be sent:
+- `Abschnitt.Von` = paragraph value
+- `Abschnitt.Bis` = paragraph value (same value)
+- `Abschnitt.Typ` = `"Paragraph"` (hardcoded)
 
 **API Endpoint:** `Bundesrecht`
 **Default Applikation:** `BrKons`
@@ -245,10 +250,17 @@ ris regvorl --ministry bmf --from 2024-01-01
 | `--ministry` | | enum | * | `EinbringendeStelle` | Submitting ministry |
 | `--since` | | enum | * | `ImRisSeit` | Time filter |
 | `--sort-dir` | | enum | | `Sortierung.SortDirection` | `asc` / `desc` |
-| `--sort-by` | | enum | | `Sortierung.SortedByColumn` | `kurztitel`, `stelle`, `datum` |
+| `--sort-by` | | enum | | `Sortierung.SortedByColumn` | Sort column (see mapping below) |
 
 **API Endpoint:** `Bundesrecht`
 **Applikation:** `RegV` (fixed)
+
+**Sort column values (--sort-by):**
+| CLI value | API value |
+|-----------|-----------|
+| `kurztitel` | `Kurztitel` |
+| `stelle` | `EinbringendeStelle` |
+| `datum` | `Beschlussdatum` |
 
 **Ministry values (--ministry):**
 | CLI value | API value |
@@ -341,6 +353,7 @@ ris gemeinden --state tirol --title "Gebuehrenordnung"
 | `--file-number` | | string | * | `Geschaeftszahl` | File number (Gr only) |
 | `--index` | | enum | * | `Index` | Subject area (Gr only) |
 | `--district` | | string | * | `Bezirk` | District (GrA only) |
+| `--gemeindeverband` | | string | * | `Gemeindeverband` | Municipal association (GrA only) |
 | `--announcement-nr` | | string | * | `Kundmachungsnummer` | Announcement nr (GrA only) |
 | `--app` | | enum | | `Applikation` | `gr` (default), `gra` |
 | `--date` | | date | | `FassungVom` | Historical version (Gr only) |
@@ -348,6 +361,14 @@ ris gemeinden --state tirol --title "Gebuehrenordnung"
 | `--to` | | date | | `Kundmachungsdatum.Bis` | Date to (GrA only) |
 | `--since` | | enum | | `ImRisSeit` | Time filter |
 | `--sort-dir` | | enum | | `Sortierung.SortDirection` | `asc` / `desc` |
+| `--sort-by` | | enum | | `Sortierung.SortedByColumn` | Sort column, Gr only (see below) |
+
+**Sort column values (--sort-by, Gr only):**
+| CLI value | API value |
+|-----------|-----------|
+| `geschaeftszahl` | `Geschaeftszahl` |
+| `bundesland` | `Bundesland` |
+| `gemeinde` | `Gemeinde` |
 
 **Index values (Gr):**
 `Undefined`, `VertretungskoerperUndAllgemeineVerwaltung`, `OeffentlicheOrdnungUndSicherheit`, `UnterrichtErziehungSportUndWissenschaft`, `KunstKulturUndKultus`, `SozialeWohlfahrtUndWohnbaufoerderung`, `Gesundheit`, `StraßenUndWasserbauVerkehr`, `Wirtschaftsfoerderung`, `Dienstleistungen`, `Finanzwirtschaft`
@@ -403,19 +424,19 @@ ris sonstige
 | `upts` | `--party` | `Partei` | Political party |
 | `upts` | `--file-number` | `Geschaeftszahl` | File number |
 | `upts` | `--norm` | `Norm` | Legal norm |
-| `kmger` | `--type` | `Typ` | `geschaeftsordnung` / `geschaeftsverteilung` |
+| `kmger` | `--type` | `Typ` | KmGer type (see mapping below) |
 | `kmger` | `--court-name` | `Gericht` | Court name |
 | `kmger` | `--file-number` | `Geschaeftszahl` | File number |
 | `avsv` | `--doc-type` | `Dokumentart` | Document type |
 | `avsv` | `--author` | `Urheber` | Author/institution |
 | `avsv` | `--avsv-number` | `Avsvnummer` | AVSV number |
 | `avn` | `--avn-number` | `Avnnummer` | AVN number |
-| `avn` | `--type` | `Typ` | `kundmachung` / `verordnung` / `erlass` |
+| `avn` | `--type` | `Typ` | AVN type (see mapping below) |
 | `spg` | `--spg-number` | `Spgnummer` | SPG number |
-| `spg` | `--osg-type` | `OsgTyp` | `oesg` / `oesg-grossgeraete` |
-| `spg` | `--rsg-type` | `RsgTyp` | `rsg` / `rsg-grossgeraete` |
+| `spg` | `--osg-type` | `OsgTyp` | OSG type (see mapping below) |
+| `spg` | `--rsg-type` | `RsgTyp` | RSG type (see mapping below) |
 | `spg` | `--rsg-state` | `RsgLand` | Federal state for RSG |
-| `pruefgewo` | `--type` | `Typ` | `befaehigung` / `eignung` / `meister` |
+| `pruefgewo` | `--type` | `Typ` | PruefGewO type (see mapping below) |
 
 **Date parameter mapping per app:**
 | App | `--from` API param | `--to` API param |
@@ -436,7 +457,56 @@ ris sonstige
 | `neos` | `NEOS - NEOS – Das Neue Österreich und Liberales Forum` |
 | `bzoe` | `BZÖ - Bündnis Zukunft Österreich` |
 
-**Erlaesse Ministry values:** Same enum as `ris regvorl --ministry`, mapped to full names from `BUNDESMINISTERIEN` constant.
+**KmGer Typ values (--type):**
+| CLI value | API value |
+|-----------|-----------|
+| `geschaeftsordnung` | `Geschaeftsordnung` |
+| `geschaeftsverteilung` | `Geschaeftsverteilung` |
+
+**AVN Typ values (--type):**
+| CLI value | API value |
+|-----------|-----------|
+| `kundmachung` | `Kundmachung` |
+| `verordnung` | `Verordnung` |
+| `erlass` | `Erlass` |
+
+**SPG OsgTyp values (--osg-type):**
+| CLI value | API value |
+|-----------|-----------|
+| `oesg` | `ÖSG` |
+| `oesg-grossgeraete` | `ÖSG - Großgeräteplan` |
+
+**SPG RsgTyp values (--rsg-type):**
+| CLI value | API value |
+|-----------|-----------|
+| `rsg` | `RSG` |
+| `rsg-grossgeraete` | `RSG - Großgeräteplan` |
+
+**PruefGewO Typ values (--type):**
+| CLI value | API value |
+|-----------|-----------|
+| `befaehigung` | `Befähigungsprüfung` |
+| `eignung` | `Eignungsprüfung` |
+| `meister` | `Meisterprüfung` |
+
+**Erlaesse Ministry values (--ministry):**
+
+**Note:** Erlaesse uses full ministry names WITHOUT abbreviation prefix (different from `ris regvorl` which uses `BMF (Bundesministerium für Finanzen)` format). Also only 12 ministries (no BMFFIM/BMEUV).
+
+| CLI value | API value |
+|-----------|-----------|
+| `bka` | `Bundeskanzleramt` |
+| `bmkoes` | `Bundesministerium für Kunst, Kultur, öffentlichen Dienst und Sport` |
+| `bmeia` | `Bundesministerium für europäische und internationale Angelegenheiten` |
+| `bmaw` | `Bundesministerium für Arbeit und Wirtschaft` |
+| `bmbwf` | `Bundesministerium für Bildung, Wissenschaft und Forschung` |
+| `bmf` | `Bundesministerium für Finanzen` |
+| `bmi` | `Bundesministerium für Inneres` |
+| `bmj` | `Bundesministerium für Justiz` |
+| `bmk` | `Bundesministerium für Klimaschutz, Umwelt, Energie, Mobilität, Innovation und Technologie` |
+| `bmlv` | `Bundesministerium für Landesverteidigung` |
+| `bml` | `Bundesministerium für Land- und Forstwirtschaft, Regionen und Wasserwirtschaft` |
+| `bmsgpk` | `Bundesministerium für Soziales, Gesundheit, Pflege und Konsumentenschutz` |
 
 **AVSV Author values:**
 | CLI value | API value |
@@ -582,7 +652,7 @@ https://data.bka.gv.at/ris/api/v2.6/
 ```
 
 **Parsing notes:**
-- `Hits` can be an object with `#text`, `@pageNumber`, `@pageSize` or a plain number
+- `Hits` can be an object with `#text`, `@pageNumber`, `@pageSize` or a plain number or string
 - `OgdDocumentReference` can be a single object or an array
 - `ContentReference` can be a single object or an array (use `MainDocument` type)
 - `ContentUrl` can be a single object or an array
@@ -590,6 +660,11 @@ https://data.bka.gv.at/ris/api/v2.6/
 - `Landesrecht` nests under `LrKons`, `Bundesrecht` under `BrKons`
 - `Judikatur` has `Geschaeftszahl` (can be string or `{item: string|string[]}`)
 - `Name` field in `ContentReference` can be string or `{"#text": string}`
+- `Ausserkrafttretensdatum` value `9999-12-31` is a sentinel for "no expiry" — filter in display
+- `Entscheidungsdatum` is used as `inkrafttreten` for Judikatur citations (semantic mapping, not a real "in force" date)
+- Leitsatz extraction only works for `Vfgh`, `Vwgh`, `Justiz`, `Bvwg` courts — other courts don't have it in the response structure
+
+**Go implementation note:** Many fields are polymorphic (single value vs array, string vs object). Use `json.RawMessage` with custom `UnmarshalJSON` methods. Consider a `internal/parser/flexible.go` with helpers like `FlexibleArray[T]` and `FlexibleString` types.
 
 ## 5. Document Routing Table
 
@@ -644,19 +719,28 @@ When direct URL fails, route to search API:
 | `NOR` | `Bundesrecht` | `BrKons` |
 | `LBG`, `LNO`, `LST`, `LTI`, `LVO`, `LWI`, `LSB`, `LOO`, `LKT` | `Landesrecht` | `LrKons` |
 | `JFR`, `JFT` | `Judikatur` | `Vfgh` |
-| `JWR`, `JWT` | `Judikatur` | `Vwgh` |
+| `JWR`, `JWT`, `JJR` | `Judikatur` | `Justiz` |
 | `BVWG` | `Judikatur` | `Bvwg` |
 | `LVWG` | `Judikatur` | `Lvwg` |
 | `DSB` | `Judikatur` | `Dsk` |
 | `GBK` | `Judikatur` | `Gbk` |
 | `PVAK` | `Judikatur` | `Pvak` |
 | `ASYLGH` | `Judikatur` | `AsylGH` |
+| `BGBLPDF` | `Bundesrecht` | `BgblPdf` |
 | `BGBLA` | `Bundesrecht` | `BgblAuth` |
 | `BGBL` | `Bundesrecht` | `BgblAlt` |
 | `REGV` | `Bundesrecht` | `RegV` |
+| `BVB` | `Bezirke` | `Bvb` |
+| `VBL` | `Landesrecht` | `Vbl` |
 | `MRP` | `Sonstige` | `Mrp` |
 | `ERL` | `Sonstige` | `Erlaesse` |
+| `PRUEF` | `Sonstige` | `PruefGewO` |
+| `AVSV` | `Sonstige` | `Avsv` |
+| `SPG` | `Sonstige` | `Spg` |
+| `KMGER` | `Sonstige` | `KmGer` |
 | (unknown) | `Judikatur` | `Justiz` (fallback) |
+
+**Important:** Check longer prefixes first (e.g., `BGBLPDF` before `BGBLA` before `BGBL`).
 
 Search params: `Dokumentnummer={nr}`, `DokumenteProSeite=Ten`
 
@@ -780,9 +864,12 @@ ris-cli/
 | `github.com/spf13/cobra` | CLI framework (subcommands, flags, help generation) |
 | `github.com/fatih/color` | Terminal colors (respects `NO_COLOR`) |
 | `github.com/olekukonez/tablewriter` | Table formatting for search results |
-| `golang.org/x/net/html` | HTML parsing (stdlib-adjacent, for html-to-text) |
+| `golang.org/x/net/html` | HTML tokenizer/parser (stdlib-adjacent) |
+| `github.com/jaytaylor/html2text` | HTML-to-text conversion (alternative: custom tree-walker with `x/net/html`) |
 
 No external HTTP client needed — Go's `net/http` stdlib is sufficient.
+
+**Note on HTML-to-text:** `golang.org/x/net/html` only provides a tokenizer/parser, not a `.text()` equivalent like cheerio. Either use `jaytaylor/html2text` or write custom tree-walking logic to remove `<script>`/`<style>`/`<head>` elements and extract text with whitespace normalization.
 
 ## 8. Phased Implementation Plan
 
