@@ -1,14 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/philrox/ris-cli/internal/api"
 	"github.com/philrox/ris-cli/internal/constants"
-	"github.com/philrox/ris-cli/internal/format"
-	"github.com/philrox/ris-cli/internal/parser"
 	"github.com/spf13/cobra"
 )
 
@@ -55,7 +51,6 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		return errValidation("Fehler: ungültiger --app Wert %q\nGültig: bundesnormen, landesnormen, justiz, vfgh, vwgh, bvwg, lvwg, bgblauth, bgblalt, bgblpdf, lgblauth, lgbl, lgblno, gemeinderecht, gemeinderechtauth, bvb, vbl, regv, mrp, erlaesse, pruefgewo, avsv, spg, kmger, dsk, gbk, dok, pvak, normenliste, asylgh", app)
 	}
 
-	client := newClient(cmd)
 	params := api.NewParams()
 
 	// History uses Anwendung, NOT Applikation.
@@ -71,22 +66,5 @@ func runHistory(cmd *cobra.Command, args []string) error {
 		params.Set("IncludeDeletedDocuments", "true")
 	}
 
-	setPageParams(cmd, params)
-
-	s := startSpinner(cmd, "Suche in Änderungshistorie...")
-	body, err := client.Search("History", params)
-	stopSpinner(s)
-	if err != nil {
-		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
-	}
-
-	result, err := parser.ParseSearchResponse(body)
-	if err != nil {
-		return fmt.Errorf("Antwort konnte nicht verarbeitet werden: %w", err)
-	}
-
-	if useJSON(cmd) {
-		return format.JSON(os.Stdout, result)
-	}
-	return format.Text(os.Stdout, result)
+	return executeSearch(cmd, "History", "Suche in Änderungshistorie...", params)
 }

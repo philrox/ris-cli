@@ -2,10 +2,13 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/briandowns/spinner"
 	"github.com/philrox/ris-cli/internal/api"
 	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/ris-cli/internal/format"
+	"github.com/philrox/ris-cli/internal/parser"
 	"github.com/philrox/ris-cli/internal/ui"
 	"github.com/spf13/cobra"
 )
@@ -70,6 +73,29 @@ func stopSpinner(s *spinner.Spinner) {
 	if s != nil {
 		s.Stop()
 	}
+}
+
+// executeSearch runs the common search pipeline: spinner → API call → parse → output.
+func executeSearch(cmd *cobra.Command, endpoint, spinnerMsg string, params *api.Params) error {
+	setPageParams(cmd, params)
+
+	client := newClient(cmd)
+	s := startSpinner(cmd, spinnerMsg)
+	body, err := client.Search(endpoint, params)
+	stopSpinner(s)
+	if err != nil {
+		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
+	}
+
+	result, err := parser.ParseSearchResponse(body)
+	if err != nil {
+		return fmt.Errorf("Antwort konnte nicht verarbeitet werden: %w", err)
+	}
+
+	if useJSON(cmd) {
+		return format.JSON(os.Stdout, result)
+	}
+	return format.Text(os.Stdout, result)
 }
 
 // setPageParams sets pagination parameters from the root command's global flags.

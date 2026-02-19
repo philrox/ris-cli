@@ -1,14 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/philrox/ris-cli/internal/api"
 	"github.com/philrox/ris-cli/internal/constants"
-	"github.com/philrox/ris-cli/internal/format"
-	"github.com/philrox/ris-cli/internal/parser"
 	"github.com/spf13/cobra"
 )
 
@@ -52,7 +48,6 @@ func runRegvorl(cmd *cobra.Command, args []string) error {
 		return errValidation("Fehler: mindestens --search, --title, --from, --ministry oder --since erforderlich")
 	}
 
-	client := newClient(cmd)
 	params := api.NewParams()
 	params.Set("Applikation", "RegV")
 
@@ -97,22 +92,5 @@ func runRegvorl(cmd *cobra.Command, args []string) error {
 		params.Set("Sortierung.SortedByColumn", value)
 	}
 
-	setPageParams(cmd, params)
-
-	s := startSpinner(cmd, "Suche in Regierungsvorlagen...")
-	body, err := client.Search("Bundesrecht", params)
-	stopSpinner(s)
-	if err != nil {
-		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
-	}
-
-	result, err := parser.ParseSearchResponse(body)
-	if err != nil {
-		return fmt.Errorf("Antwort konnte nicht verarbeitet werden: %w", err)
-	}
-
-	if useJSON(cmd) {
-		return format.JSON(os.Stdout, result)
-	}
-	return format.Text(os.Stdout, result)
+	return executeSearch(cmd, "Bundesrecht", "Suche in Regierungsvorlagen...", params)
 }

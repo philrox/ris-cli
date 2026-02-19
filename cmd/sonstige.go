@@ -1,14 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/philrox/ris-cli/internal/api"
 	"github.com/philrox/ris-cli/internal/constants"
-	"github.com/philrox/ris-cli/internal/format"
-	"github.com/philrox/ris-cli/internal/parser"
 	"github.com/spf13/cobra"
 )
 
@@ -196,25 +192,7 @@ func setCommonSonstigeParams(cmd *cobra.Command, params *api.Params) {
 }
 
 func executeSonstigeSearch(cmd *cobra.Command, params *api.Params) error {
-	setPageParams(cmd, params)
-
-	client := newClient(cmd)
-	s := startSpinner(cmd, "Suche in Sonstige Rechtsquellen...")
-	body, err := client.Search("Sonstige", params)
-	stopSpinner(s)
-	if err != nil {
-		return fmt.Errorf("API-Anfrage fehlgeschlagen: %w", err)
-	}
-
-	result, err := parser.ParseSearchResponse(body)
-	if err != nil {
-		return fmt.Errorf("Antwort konnte nicht verarbeitet werden: %w", err)
-	}
-
-	if useJSON(cmd) {
-		return format.JSON(os.Stdout, result)
-	}
-	return format.Text(os.Stdout, result)
+	return executeSearch(cmd, "Sonstige", "Suche in Sonstige Rechtsquellen...", params)
 }
 
 func runMrp(cmd *cobra.Command, args []string) error {
