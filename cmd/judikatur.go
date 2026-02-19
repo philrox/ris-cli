@@ -46,16 +46,13 @@ func runJudikatur(cmd *cobra.Command, args []string) error {
 
 	// At least one of search/norm/case-number required.
 	if search == "" && norm == "" && caseNumber == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --norm oder --case-number erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --search, --norm oder --case-number erforderlich")
 	}
 
 	// Resolve court to Applikation value.
 	courtValue, ok := constants.Courts[strings.ToLower(court)]
 	if !ok {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --court Wert %q\n", court)
-		fmt.Fprintln(os.Stderr, "Gültige Gerichte: justiz, vfgh, vwgh, bvwg, lvwg, dsk, asylgh, normenliste, pvak, gbk, dok")
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --court Wert %q\nGültige Gerichte: justiz, vfgh, vwgh, bvwg, lvwg, dsk, asylgh, normenliste, pvak, gbk, dok", court)
 	}
 
 	client := newClient(cmd)

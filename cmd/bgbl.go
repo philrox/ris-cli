@@ -45,14 +45,12 @@ func runBgbl(cmd *cobra.Command, args []string) error {
 
 	// At least one of number/year/search/title required.
 	if number == "" && year == "" && search == "" && title == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --number, --year, --search oder --title erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --number, --year, --search oder --title erforderlich")
 	}
 
 	appValue, ok := constants.BgblApps[strings.ToLower(app)]
 	if !ok {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --app Wert %q (gültig: bgblauth, bgblpdf, bgblalt)\n", app)
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --app Wert %q (gültig: bgblauth, bgblpdf, bgblalt)", app)
 	}
 
 	client := newClient(cmd)
@@ -74,8 +72,7 @@ func runBgbl(cmd *cobra.Command, args []string) error {
 	if part != "" {
 		teilValue, ok := constants.BgblTeile[part]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --part Wert %q (gültig: 1, 2, 3)\n", part)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --part Wert %q (gültig: 1, 2, 3)", part)
 		}
 		params.Set("Teil", teilValue)
 	}

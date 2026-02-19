@@ -45,14 +45,12 @@ func runLgbl(cmd *cobra.Command, args []string) error {
 
 	// At least one required.
 	if number == "" && year == "" && state == "" && search == "" && title == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --number, --year, --state, --search oder --title erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --number, --year, --state, --search oder --title erforderlich")
 	}
 
 	appValue, ok := constants.LgblApps[strings.ToLower(app)]
 	if !ok {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --app Wert %q (gültig: lgblauth, lgbl, lgblno)\n", app)
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --app Wert %q (gültig: lgblauth, lgbl, lgblno)", app)
 	}
 
 	client := newClient(cmd)
@@ -68,9 +66,7 @@ func runLgbl(cmd *cobra.Command, args []string) error {
 	if state != "" {
 		paramName, ok := constants.LandesrechtStates[strings.ToLower(state)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --state Wert %q\n", state)
-			fmt.Fprintln(os.Stderr, "Gültige Bundesländer: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --state Wert %q\nGültige Bundesländer: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland", state)
 		}
 		params.Set(paramName, "true")
 	}

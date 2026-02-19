@@ -45,8 +45,7 @@ func runVerordnungen(cmd *cobra.Command, args []string) error {
 
 	// At least one required.
 	if search == "" && title == "" && state == "" && number == "" && from == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --title, --state, --number oder --from erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --search, --title, --state, --number oder --from erforderlich")
 	}
 
 	client := newClient(cmd)
@@ -63,9 +62,7 @@ func runVerordnungen(cmd *cobra.Command, args []string) error {
 		// Verordnungen uses direct Bundesland values, NOT SucheIn* format.
 		value, ok := constants.VerordnungenStates[strings.ToLower(state)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --state Wert %q\n", state)
-			fmt.Fprintln(os.Stderr, "Gültige Bundesländer: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --state Wert %q\nGültige Bundesländer: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland", state)
 		}
 		params.Set("Bundesland", value)
 	}

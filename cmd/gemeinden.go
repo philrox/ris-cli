@@ -66,14 +66,12 @@ func runGemeinden(cmd *cobra.Command, args []string) error {
 	// At least one required.
 	if search == "" && title == "" && state == "" && municipality == "" &&
 		fileNumber == "" && index == "" && district == "" && gemeindeverband == "" && announcementNr == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens ein Suchparameter erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens ein Suchparameter erforderlich")
 	}
 
 	appValue, ok := constants.GemeindenApps[strings.ToLower(app)]
 	if !ok {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --app Wert %q (gültig: gr, gra)\n", app)
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --app Wert %q (gültig: gr, gra)", app)
 	}
 
 	client := newClient(cmd)
@@ -98,8 +96,7 @@ func runGemeinden(cmd *cobra.Command, args []string) error {
 	if index != "" {
 		value, ok := constants.GemeindenIndex[strings.ToLower(index)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --index Wert %q\n", index)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --index Wert %q", index)
 		}
 		params.Set("Index", value)
 	}
@@ -124,24 +121,21 @@ func runGemeinden(cmd *cobra.Command, args []string) error {
 	if since != "" {
 		value, ok := constants.ImRisSeit[strings.ToLower(since)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --since Wert %q\n", since)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --since Wert %q", since)
 		}
 		params.Set("ImRisSeit", value)
 	}
 	if sortDir != "" {
 		value, ok := constants.SortDirections[strings.ToLower(sortDir)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --sort-dir Wert %q (gültig: asc, desc)\n", sortDir)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --sort-dir Wert %q (gültig: asc, desc)", sortDir)
 		}
 		params.Set("Sortierung.SortDirection", value)
 	}
 	if sortBy != "" {
 		value, ok := constants.GemeindenSortColumns[strings.ToLower(sortBy)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --sort-by Wert %q (gültig: geschaeftszahl, bundesland, gemeinde)\n", sortBy)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --sort-by Wert %q (gültig: geschaeftszahl, bundesland, gemeinde)", sortBy)
 		}
 		params.Set("Sortierung.SortedByColumn", value)
 	}

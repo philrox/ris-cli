@@ -49,8 +49,7 @@ func runBezirke(cmd *cobra.Command, args []string) error {
 
 	// At least one required.
 	if search == "" && title == "" && state == "" && authority == "" && number == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --title, --state, --authority oder --number erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --search, --title, --state, --authority oder --number erforderlich")
 	}
 
 	client := newClient(cmd)
@@ -67,9 +66,7 @@ func runBezirke(cmd *cobra.Command, args []string) error {
 		// Bezirke uses display names with Umlauts.
 		value, ok := constants.BezirkeStates[strings.ToLower(state)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --state Wert %q\n", state)
-			fmt.Fprintln(os.Stderr, "Gültig: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --state Wert %q\nGültig: wien, niederoesterreich, oberoesterreich, salzburg, tirol, vorarlberg, kaernten, steiermark, burgenland", state)
 		}
 		params.Set("Bundesland", value)
 	}
@@ -88,8 +85,7 @@ func runBezirke(cmd *cobra.Command, args []string) error {
 	if since != "" {
 		value, ok := constants.ImRisSeit[strings.ToLower(since)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --since Wert %q\n", since)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --since Wert %q", since)
 		}
 		params.Set("ImRisSeit", value)
 	}

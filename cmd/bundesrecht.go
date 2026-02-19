@@ -45,15 +45,13 @@ func runBundesrecht(cmd *cobra.Command, args []string) error {
 
 	// At least one of search/title/paragraph required.
 	if search == "" && title == "" && paragraph == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --title oder --paragraph erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --search, --title oder --paragraph erforderlich")
 	}
 
 	// Resolve application value.
 	appValue, ok := constants.BundesrechtApps[strings.ToLower(app)]
 	if !ok {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --app Wert %q (gültig: brkons, begut, bgblauth, erv)\n", app)
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --app Wert %q (gültig: brkons, begut, bgblauth, erv)", app)
 	}
 
 	client := newClient(cmd)

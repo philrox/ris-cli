@@ -70,8 +70,7 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	}
 
 	if docNumber == "" && docURL == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: Dokumentnummer oder --url erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: Dokumentnummer oder --url erforderlich")
 	}
 
 	client := newClient(cmd)
@@ -79,16 +78,14 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	if docURL != "" {
 		// Direct URL fetch.
 		if err := validateURL(docURL); err != nil {
-			fmt.Fprintf(os.Stderr, "Fehler: %v\n", err)
-			os.Exit(2)
+			return errValidation("Fehler: %v", err)
 		}
 		return fetchAndOutputDocument(cmd, client, docURL, docNumber)
 	}
 
 	// Document number strategy.
 	if err := validateDocNumber(docNumber); err != nil {
-		fmt.Fprintf(os.Stderr, "Fehler: %v\n", err)
-		os.Exit(2)
+		return errValidation("Fehler: %v", err)
 	}
 
 	// Step 1: Try direct URL from prefix routing table.
@@ -126,8 +123,7 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	}
 
 	if len(result.Documents) == 0 {
-		fmt.Fprintf(os.Stderr, "Fehler: Dokument %q nicht gefunden\n", docNumber)
-		os.Exit(3)
+		return errValidation("Fehler: Dokument %q nicht gefunden", docNumber)
 	}
 
 	// Find HTML content URL from search result.

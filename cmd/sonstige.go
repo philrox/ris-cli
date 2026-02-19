@@ -273,9 +273,7 @@ func runErlaesse(cmd *cobra.Command, args []string) error {
 	if ministry != "" {
 		value, ok := constants.ErlMinistries[strings.ToLower(ministry)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --ministry Wert %q\n", ministry)
-			fmt.Fprintln(os.Stderr, "Gültig: bka, bmkoes, bmeia, bmaw, bmbwf, bmf, bmi, bmj, bmk, bmlv, bml, bmsgpk")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --ministry Wert %q\nGültig: bka, bmkoes, bmeia, bmaw, bmbwf, bmf, bmi, bmj, bmk, bmlv, bml, bmsgpk", ministry)
 		}
 		params.Set("Bundesministerium", value)
 	}
@@ -315,9 +313,7 @@ func runUpts(cmd *cobra.Command, args []string) error {
 	if party != "" {
 		value, ok := constants.UptsParties[strings.ToLower(party)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --party Wert %q\n", party)
-			fmt.Fprintln(os.Stderr, "Gültig: spoe, oevp, fpoe, gruene, neos, bzoe")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --party Wert %q\nGültig: spoe, oevp, fpoe, gruene, neos, bzoe", party)
 		}
 		params.Set("Partei", value)
 	}
@@ -351,8 +347,7 @@ func runKmger(cmd *cobra.Command, args []string) error {
 	if typ != "" {
 		value, ok := constants.KmgerTypes[strings.ToLower(typ)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --type Wert %q (gültig: geschaeftsordnung, geschaeftsverteilung)\n", typ)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --type Wert %q (gültig: geschaeftsordnung, geschaeftsverteilung)", typ)
 		}
 		params.Set("Typ", value)
 	}
@@ -389,9 +384,7 @@ func runAvsv(cmd *cobra.Command, args []string) error {
 	if author != "" {
 		value, ok := constants.AvsvAuthors[strings.ToLower(author)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --author Wert %q\n", author)
-			fmt.Fprintln(os.Stderr, "Gültig: dvsv, pva, oegk, auva, svs, bvaeb")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --author Wert %q\nGültig: dvsv, pva, oegk, auva, svs, bvaeb", author)
 		}
 		params.Set("Urheber", value)
 	}
@@ -424,8 +417,7 @@ func runAvn(cmd *cobra.Command, args []string) error {
 	if typ != "" {
 		value, ok := constants.AvnTypes[strings.ToLower(typ)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --type Wert %q (gültig: kundmachung, verordnung, erlass)\n", typ)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --type Wert %q (gültig: kundmachung, verordnung, erlass)", typ)
 		}
 		params.Set("Typ", value)
 	}
@@ -457,16 +449,14 @@ func runSpg(cmd *cobra.Command, args []string) error {
 	if osgType != "" {
 		value, ok := constants.OsgTypes[strings.ToLower(osgType)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --osg-type Wert %q (gültig: oesg, oesg-grossgeraete)\n", osgType)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --osg-type Wert %q (gültig: oesg, oesg-grossgeraete)", osgType)
 		}
 		params.Set("OsgTyp", value)
 	}
 	if rsgType != "" {
 		value, ok := constants.RsgTypes[strings.ToLower(rsgType)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --rsg-type Wert %q (gültig: rsg, rsg-grossgeraete)\n", rsgType)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --rsg-type Wert %q (gültig: rsg, rsg-grossgeraete)", rsgType)
 		}
 		params.Set("RsgTyp", value)
 	}
@@ -495,8 +485,7 @@ func runPruefgewo(cmd *cobra.Command, args []string) error {
 	if typ != "" {
 		value, ok := constants.PruefgewoTypes[strings.ToLower(typ)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --type Wert %q (gültig: befaehigung, eignung, meister)\n", typ)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --type Wert %q (gültig: befaehigung, eignung, meister)", typ)
 		}
 		params.Set("Typ", value)
 	}

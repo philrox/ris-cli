@@ -10,6 +10,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// ValidationError represents a user input validation error.
+// main.go uses this to set exit code 2.
+type ValidationError struct {
+	msg string
+}
+
+func (e *ValidationError) Error() string { return e.msg }
+
+// errValidation creates a validation error with fmt.Sprintf formatting.
+func errValidation(format string, args ...any) error {
+	return &ValidationError{msg: fmt.Sprintf(format, args...)}
+}
+
 // newClient creates an API client from the root command's global flags.
 func newClient(cmd *cobra.Command) *api.Client {
 	root := cmd.Root()

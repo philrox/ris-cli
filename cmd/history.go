@@ -41,22 +41,18 @@ func runHistory(cmd *cobra.Command, args []string) error {
 
 	// --app is required.
 	if app == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: --app ist erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: --app ist erforderlich")
 	}
 
 	// At least one of --from or --to required.
 	if from == "" && to == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --from oder --to erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --from oder --to erforderlich")
 	}
 
 	// Validate app value.
 	appLower := strings.ToLower(app)
 	if !constants.IsValidHistoryApp(appLower) {
-		fmt.Fprintf(os.Stderr, "Fehler: ungültiger --app Wert %q\n", app)
-		fmt.Fprintln(os.Stderr, "Gültig: bundesnormen, landesnormen, justiz, vfgh, vwgh, bvwg, lvwg, bgblauth, bgblalt, bgblpdf, lgblauth, lgbl, lgblno, gemeinderecht, gemeinderechtauth, bvb, vbl, regv, mrp, erlaesse, pruefgewo, avsv, spg, kmger, dsk, gbk, dok, pvak, normenliste, asylgh")
-		os.Exit(2)
+		return errValidation("Fehler: ungültiger --app Wert %q\nGültig: bundesnormen, landesnormen, justiz, vfgh, vwgh, bvwg, lvwg, bgblauth, bgblalt, bgblpdf, lgblauth, lgbl, lgblno, gemeinderecht, gemeinderechtauth, bvb, vbl, regv, mrp, erlaesse, pruefgewo, avsv, spg, kmger, dsk, gbk, dok, pvak, normenliste, asylgh", app)
 	}
 
 	client := newClient(cmd)

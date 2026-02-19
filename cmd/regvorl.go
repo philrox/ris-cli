@@ -49,8 +49,7 @@ func runRegvorl(cmd *cobra.Command, args []string) error {
 
 	// At least one required.
 	if search == "" && title == "" && from == "" && ministry == "" && since == "" {
-		fmt.Fprintln(os.Stderr, "Fehler: mindestens --search, --title, --from, --ministry oder --since erforderlich")
-		os.Exit(2)
+		return errValidation("Fehler: mindestens --search, --title, --from, --ministry oder --since erforderlich")
 	}
 
 	client := newClient(cmd)
@@ -72,33 +71,28 @@ func runRegvorl(cmd *cobra.Command, args []string) error {
 	if ministry != "" {
 		value, ok := constants.RegvorlMinistries[strings.ToLower(ministry)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --ministry Wert %q\n", ministry)
-			fmt.Fprintln(os.Stderr, "Gültig: bka, bmkoes, bmeia, bmaw, bmbwf, bmf, bmi, bmj, bmk, bmlv, bml, bmsgpk, bmffim, bmeuv")
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --ministry Wert %q\nGültig: bka, bmkoes, bmeia, bmaw, bmbwf, bmf, bmi, bmj, bmk, bmlv, bml, bmsgpk, bmffim, bmeuv", ministry)
 		}
 		params.Set("EinbringendeStelle", value)
 	}
 	if since != "" {
 		value, ok := constants.ImRisSeit[strings.ToLower(since)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --since Wert %q\n", since)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --since Wert %q", since)
 		}
 		params.Set("ImRisSeit", value)
 	}
 	if sortDir != "" {
 		value, ok := constants.SortDirections[strings.ToLower(sortDir)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --sort-dir Wert %q (gültig: asc, desc)\n", sortDir)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --sort-dir Wert %q (gültig: asc, desc)", sortDir)
 		}
 		params.Set("Sortierung.SortDirection", value)
 	}
 	if sortBy != "" {
 		value, ok := constants.RegvorlSortColumns[strings.ToLower(sortBy)]
 		if !ok {
-			fmt.Fprintf(os.Stderr, "Fehler: ungültiger --sort-by Wert %q (gültig: kurztitel, stelle, datum)\n", sortBy)
-			os.Exit(2)
+			return errValidation("Fehler: ungültiger --sort-by Wert %q (gültig: kurztitel, stelle, datum)", sortBy)
 		}
 		params.Set("Sortierung.SortedByColumn", value)
 	}
