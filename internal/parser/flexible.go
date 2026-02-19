@@ -26,9 +26,7 @@ func (f *FlexibleString) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	// Fallback: use raw string representation.
-	*f = FlexibleString(string(data))
-	return nil
+	return fmt.Errorf("cannot unmarshal %s into FlexibleString", string(data))
 }
 
 func (f FlexibleString) String() string {
@@ -91,6 +89,5 @@ func (f *FlexibleInt) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	*f = 0
-	return nil
+	return fmt.Errorf("cannot unmarshal %s into FlexibleInt", string(data))
 }

@@ -19,8 +19,6 @@ func TestFlexibleStringUnmarshalJSON(t *testing.T) {
 		{"empty string", `""`, ""},
 		{"object with #text", `{"#text":"from object"}`, "from object"},
 		{"object with empty #text", `{"#text":""}`, ""},
-		{"raw fallback number", `42`, "42"},
-		{"raw fallback bool", `true`, "true"},
 		{"null becomes empty", `null`, ""},
 	}
 	for _, tt := range tests {
@@ -31,6 +29,25 @@ func TestFlexibleStringUnmarshalJSON(t *testing.T) {
 			}
 			if string(fs) != tt.want {
 				t.Errorf("UnmarshalJSON(%s) = %q, want %q", tt.json, string(fs), tt.want)
+			}
+		})
+	}
+}
+
+func TestFlexibleStringUnmarshalError(t *testing.T) {
+	tests := []struct {
+		name string
+		json string
+	}{
+		{"bare number", `42`},
+		{"bare bool", `true`},
+		{"array", `[1,2,3]`},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var fs FlexibleString
+			if err := json.Unmarshal([]byte(tt.json), &fs); err == nil {
+				t.Errorf("UnmarshalJSON(%s) expected error, got nil (value=%q)", tt.json, string(fs))
 			}
 		})
 	}
@@ -237,9 +254,6 @@ func TestFlexibleIntUnmarshalJSON(t *testing.T) {
 		{"string negative", `"-5"`, -5},
 		{"object with #text", `{"#text":"99"}`, 99},
 		{"object with #text negative", `{"#text":"-3"}`, -3},
-		{"invalid string fallback zero", `"not-a-number"`, 0},
-		{"object with non-numeric #text", `{"#text":"abc"}`, 0},
-		{"bool fallback zero", `true`, 0},
 		{"null fallback zero", `null`, 0},
 	}
 	for _, tt := range tests {
@@ -250,6 +264,26 @@ func TestFlexibleIntUnmarshalJSON(t *testing.T) {
 			}
 			if int(fi) != tt.want {
 				t.Errorf("UnmarshalJSON(%s) = %d, want %d", tt.json, int(fi), tt.want)
+			}
+		})
+	}
+}
+
+func TestFlexibleIntUnmarshalError(t *testing.T) {
+	tests := []struct {
+		name string
+		json string
+	}{
+		{"non-numeric string", `"not-a-number"`},
+		{"object with non-numeric #text", `{"#text":"abc"}`},
+		{"bare bool", `true`},
+		{"array", `[1,2,3]`},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var fi FlexibleInt
+			if err := json.Unmarshal([]byte(tt.json), &fi); err == nil {
+				t.Errorf("UnmarshalJSON(%s) expected error, got nil (value=%d)", tt.json, int(fi))
 			}
 		})
 	}
