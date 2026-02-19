@@ -9,28 +9,28 @@ import (
 var completionCmd = &cobra.Command{
 	Use:   "completion [bash|zsh|fish|powershell]",
 	Short: "Shell-Autovervollständigung generieren",
-	Long: `Shell-Autovervollständigung für ris generieren.
+	Long: `Shell-Autovervollständigung für risgo generieren.
 
 Bash:
-  source <(ris completion bash)
+  source <(risgo completion bash)
 
   # Dauerhaft installieren:
-  ris completion bash > /etc/bash_completion.d/ris
+  risgo completion bash > /etc/bash_completion.d/risgo
 
 Zsh:
-  source <(ris completion zsh)
+  source <(risgo completion zsh)
 
   # Dauerhaft installieren:
-  ris completion zsh > "${fpath[1]}/_ris"
+  risgo completion zsh > "${fpath[1]}/_risgo"
 
 Fish:
-  ris completion fish | source
+  risgo completion fish | source
 
   # Dauerhaft installieren:
-  ris completion fish > ~/.config/fish/completions/ris.fish
+  risgo completion fish > ~/.config/fish/completions/risgo.fish
 
 PowerShell:
-  ris completion powershell | Out-String | Invoke-Expression`,
+  risgo completion powershell | Out-String | Invoke-Expression`,
 	DisableFlagsInUseLine: true,
 	ValidArgs:             []string{"bash", "zsh", "fish", "powershell"},
 	Args:                  cobra.MatchAll(cobra.ExactArgs(1), cobra.OnlyValidArgs),

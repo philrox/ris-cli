@@ -26,9 +26,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "ris",
+	Use:   "risgo",
 	Short: "Österreichische Rechtsdokumente aus dem RIS suchen und abrufen",
-	Long: `ris — CLI für das Rechtsinformationssystem des Bundes (RIS)
+	Long: `risgo — CLI für das Rechtsinformationssystem des Bundes (RIS)
 
 Suche und Abruf österreichischer Rechtsdokumente über die RIS OGD API.
 Unterstützt Bundesrecht, Landesrecht, Judikatur, Gesetzblätter und mehr.

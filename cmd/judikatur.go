@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,9 +14,9 @@ var judikaturCmd = &cobra.Command{
 	Long: `Österreichische Gerichtsentscheidungen durchsuchen.
 
 Beispiele:
-  ris judikatur --search "Grundrecht" --court vfgh
-  ris judikatur --case-number "5Ob234/20b"
-  ris judikatur --norm "1319a ABGB" --from 2020-01-01 --to 2024-12-31`,
+  risgo judikatur --search "Grundrecht" --court vfgh
+  risgo judikatur --case-number "5Ob234/20b"
+  risgo judikatur --norm "1319a ABGB" --from 2020-01-01 --to 2024-12-31`,
 	RunE: runJudikatur,
 }
 

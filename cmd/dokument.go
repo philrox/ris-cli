@@ -7,12 +7,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
-	"github.com/philrox/ris-cli/internal/format"
-	"github.com/philrox/ris-cli/internal/model"
-	"github.com/philrox/ris-cli/internal/parser"
-	"github.com/philrox/ris-cli/internal/ui"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
+	"github.com/philrox/risgo/internal/format"
+	"github.com/philrox/risgo/internal/model"
+	"github.com/philrox/risgo/internal/parser"
+	"github.com/philrox/risgo/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -22,9 +22,9 @@ var dokumentCmd = &cobra.Command{
 	Long: `Volltext eines Rechtsdokuments abrufen.
 
 Beispiele:
-  ris dokument NOR40052761
-  ris dokument NOR40052761 --json
-  ris dokument --url "https://ris.bka.gv.at/Dokumente/Bundesnormen/NOR40052761/NOR40052761.html"`,
+  risgo dokument NOR40052761
+  risgo dokument NOR40052761 --json
+  risgo dokument --url "https://ris.bka.gv.at/Dokumente/Bundesnormen/NOR40052761/NOR40052761.html"`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: runDokument,
 }

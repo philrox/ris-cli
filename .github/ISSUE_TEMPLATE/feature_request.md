@@ -19,7 +19,7 @@ A clear description of what you want to happen.
 Show how the CLI command would look:
 
 ```
-ris ...
+risgo ...
 ```
 
 ## Additional context

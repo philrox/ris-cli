@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/philrox/ris-cli/internal/model"
+	"github.com/philrox/risgo/internal/model"
 )
 
 func TestText_EmptyResults(t *testing.T) {

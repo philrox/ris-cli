@@ -1,4 +1,4 @@
-// Command docs generates man pages for ris.
+// Command docs generates man pages for risgo.
 //
 // Usage:
 //
@@ -11,7 +11,7 @@ import (
 
 	"github.com/spf13/cobra/doc"
 
-	"github.com/philrox/ris-cli/cmd"
+	"github.com/philrox/risgo/cmd"
 )
 
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	header := &doc.GenManHeader{
 		Title:   "RIS",
 		Section: "1",
-		Source:  "ris-cli",
+		Source:  "risgo",
 		Manual:  "RIS CLI Manual",
 	}
 

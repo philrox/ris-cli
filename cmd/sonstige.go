@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -31,8 +31,8 @@ var mrpCmd = &cobra.Command{
 	Long: `Ministerratsprotokolle durchsuchen.
 
 Beispiele:
-  ris sonstige mrp --search "Budget"
-  ris sonstige mrp --session 42`,
+  risgo sonstige mrp --search "Budget"
+  risgo sonstige mrp --session 42`,
 	RunE: runMrp,
 }
 
@@ -43,8 +43,8 @@ var erlCmd = &cobra.Command{
 	Long: `Erlässe durchsuchen.
 
 Beispiele:
-  ris sonstige erlaesse --ministry bmf
-  ris sonstige erlaesse --search "Steuer"`,
+  risgo sonstige erlaesse --ministry bmf
+  risgo sonstige erlaesse --search "Steuer"`,
 	RunE: runErlaesse,
 }
 
@@ -55,7 +55,7 @@ var uptsCmd = &cobra.Command{
 	Long: `Parteientransparenz-Entscheidungen durchsuchen (UPTS).
 
 Beispiele:
-  ris sonstige upts --party spoe`,
+  risgo sonstige upts --party spoe`,
 	RunE: runUpts,
 }
 
@@ -66,7 +66,7 @@ var kmgerCmd = &cobra.Command{
 	Long: `Gerichtskundmachungen durchsuchen (KmGer).
 
 Beispiele:
-  ris sonstige kmger --type geschaeftsordnung`,
+  risgo sonstige kmger --type geschaeftsordnung`,
 	RunE: runKmger,
 }
 
@@ -77,7 +77,7 @@ var avsvCmd = &cobra.Command{
 	Long: `Sozialversicherungs-Kundmachungen durchsuchen (AVSV).
 
 Beispiele:
-  ris sonstige avsv --author dvsv`,
+  risgo sonstige avsv --author dvsv`,
 	RunE: runAvsv,
 }
 
@@ -88,7 +88,7 @@ var avnCmd = &cobra.Command{
 	Long: `Veterinär-Kundmachungen durchsuchen (AVN).
 
 Beispiele:
-  ris sonstige avn --type kundmachung`,
+  risgo sonstige avn --type kundmachung`,
 	RunE: runAvn,
 }
 
@@ -99,7 +99,7 @@ var spgCmd = &cobra.Command{
 	Long: `Gesundheitsstrukturpläne durchsuchen (SPG).
 
 Beispiele:
-  ris sonstige spg --osg-type oesg`,
+  risgo sonstige spg --osg-type oesg`,
 	RunE: runSpg,
 }
 
@@ -110,7 +110,7 @@ var pruefgewoCmd = &cobra.Command{
 	Long: `Gewerbeprüfungen durchsuchen (PrüfGewO).
 
 Beispiele:
-  ris sonstige pruefgewo --type befaehigung`,
+  risgo sonstige pruefgewo --type befaehigung`,
 	RunE: runPruefgewo,
 }
 

@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var regvorlCmd = &cobra.Command{
 	Long: `Regierungsvorlagen durchsuchen.
 
 Beispiele:
-  ris regvorl --search "Klimaschutz"
-  ris regvorl --ministry bmf --from 2024-01-01`,
+  risgo regvorl --search "Klimaschutz"
+  risgo regvorl --ministry bmf --from 2024-01-01`,
 	RunE: runRegvorl,
 }
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/model"
+	"github.com/philrox/risgo/internal/model"
 )
 
 // noExpiryDate is the sentinel value the API uses for laws with no expiry.

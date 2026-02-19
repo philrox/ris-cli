@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/philrox/ris-cli/internal/model"
+	"github.com/philrox/risgo/internal/model"
 )
 
 // JSON writes search results as pretty-printed JSON to the writer.

@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/fatih/color"
-	"github.com/philrox/ris-cli/internal/model"
+	"github.com/philrox/risgo/internal/model"
 )
 
 // Citation color functions.

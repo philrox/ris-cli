@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var bgblCmd = &cobra.Command{
 	Long: `Bundesgesetzblätter (BGBl) durchsuchen.
 
 Beispiele:
-  ris bgbl --number 120 --year 2023 --part 1
-  ris bgbl --search "Klimaschutz" --json`,
+  risgo bgbl --number 120 --year 2023 --part 1
+  risgo bgbl --search "Klimaschutz" --json`,
 	RunE: runBgbl,
 }
 

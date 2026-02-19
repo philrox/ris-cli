@@ -1,4 +1,4 @@
-# ris
+# risgo
 
 CLI für das Rechtsinformationssystem des Bundes (RIS) — Suche und Abruf österreichischer Rechtsdokumente über die [RIS OGD API](https://data.bka.gv.at/ris/api/v2.6/).
 
@@ -7,39 +7,39 @@ CLI für das Rechtsinformationssystem des Bundes (RIS) — Suche und Abruf öste
 ### Homebrew (macOS/Linux)
 
 ```bash
-brew install philrox/tap/ris
+brew install philrox/tap/risgo
 ```
 
 ### Go
 
 ```bash
-go install github.com/philrox/ris-cli@latest
+go install github.com/philrox/risgo@latest
 ```
 
 ### Binary Download
 
-Fertige Binaries für Linux, macOS und Windows: [GitHub Releases](https://github.com/philrox/ris-cli/releases)
+Fertige Binaries für Linux, macOS und Windows: [GitHub Releases](https://github.com/philrox/risgo/releases)
 
 ## Schnellstart
 
 ```bash
 # Bundesrecht nach "Mietrecht" durchsuchen
-ris bundesrecht --search "Mietrecht"
+risgo bundesrecht --search "Mietrecht"
 
 # Bestimmten ABGB-Paragraphen abrufen
-ris bundesrecht --title "ABGB" --paragraph 1295
+risgo bundesrecht --title "ABGB" --paragraph 1295
 
 # JSON-Ausgabe für Skripte und AI-Agents
-ris bundesrecht --search "Mietrecht" --json
+risgo bundesrecht --search "Mietrecht" --json
 
 # Volltext eines Dokuments abrufen
-ris dokument NOR40052761
+risgo dokument NOR40052761
 
 # VfGH-Entscheidungen zu Grundrechten
-ris judikatur --search "Grundrecht" --court vfgh --from 2020-01-01
+risgo judikatur --search "Grundrecht" --court vfgh --from 2020-01-01
 
 # Salzburger Landesrecht
-ris landesrecht --search "Bauordnung" --state salzburg
+risgo landesrecht --search "Bauordnung" --state salzburg
 ```
 
 ## Befehle
@@ -77,40 +77,40 @@ Die Ausgabe wird automatisch erkannt: Ist stdout ein Terminal, wird formatierter
 
 ```bash
 # Erstes Ergebnis als Dokumentnummer extrahieren
-DOC=$(ris bundesrecht --search "Datenschutz" --json | jq -r '.documents[0].dokumentnummer')
+DOC=$(risgo bundesrecht --search "Datenschutz" --json | jq -r '.documents[0].dokumentnummer')
 
 # Volltext abrufen
-ris dokument "$DOC" --json | jq '.content'
+risgo dokument "$DOC" --json | jq '.content'
 ```
 
 ### Paginierung
 
 ```bash
-ris judikatur --search "Schadenersatz" --page 2 --limit 50
+risgo judikatur --search "Schadenersatz" --page 2 --limit 50
 ```
 
 ### Bundesgesetzblatt
 
 ```bash
-ris bgbl --number 120 --year 2023 --part 1
+risgo bgbl --number 120 --year 2023 --part 1
 ```
 
 ### Regierungsvorlagen
 
 ```bash
-ris regvorl --ministry bmf --from 2024-01-01
+risgo regvorl --ministry bmf --from 2024-01-01
 ```
 
 ### Ministerratsprotokolle
 
 ```bash
-ris sonstige mrp --search "Budget" --session 42
+risgo sonstige mrp --search "Budget" --session 42
 ```
 
 ### Dokumenthistorie
 
 ```bash
-ris history --app bundesnormen --from 2024-01-01 --to 2024-01-31
+risgo history --app bundesnormen --from 2024-01-01 --to 2024-01-31
 ```
 
 ## Globale Flags
@@ -142,13 +142,13 @@ Priorität: Flags > Umgebungsvariablen > Standardwerte
 
 ```bash
 # Bash
-source <(ris completion bash)
+source <(risgo completion bash)
 
 # Zsh
-source <(ris completion zsh)
+source <(risgo completion zsh)
 
 # Fish
-ris completion fish | source
+risgo completion fish | source
 ```
 
 ## Lizenz

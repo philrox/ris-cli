@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,10 +14,10 @@ var bundesrechtCmd = &cobra.Command{
 	Long: `Österreichische Bundesgesetze (Bundesrecht) durchsuchen.
 
 Beispiele:
-  ris bundesrecht --search "Mietrecht"
-  ris bundesrecht --title "ABGB" --paragraph 1295
-  ris bundesrecht --search "Schadenersatz" --app begut
-  ris bundesrecht --search "Mietrecht" --date 2024-01-15 --json`,
+  risgo bundesrecht --search "Mietrecht"
+  risgo bundesrecht --title "ABGB" --paragraph 1295
+  risgo bundesrecht --search "Schadenersatz" --app begut
+  risgo bundesrecht --search "Mietrecht" --date 2024-01-15 --json`,
 	RunE: runBundesrecht,
 }
 

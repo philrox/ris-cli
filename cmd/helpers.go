@@ -5,11 +5,11 @@ import (
 	"os"
 
 	"github.com/briandowns/spinner"
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
-	"github.com/philrox/ris-cli/internal/format"
-	"github.com/philrox/ris-cli/internal/parser"
-	"github.com/philrox/ris-cli/internal/ui"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
+	"github.com/philrox/risgo/internal/format"
+	"github.com/philrox/risgo/internal/parser"
+	"github.com/philrox/risgo/internal/ui"
 	"github.com/spf13/cobra"
 )
 

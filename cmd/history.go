@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var historyCmd = &cobra.Command{
 	Long: `Änderungshistorie von Dokumenten durchsuchen.
 
 Beispiele:
-  ris history --app bundesnormen --from 2024-01-01 --to 2024-01-31
-  ris history --app justiz --from 2024-06-01 --include-deleted`,
+  risgo history --app bundesnormen --from 2024-01-01 --to 2024-01-31
+  risgo history --app justiz --from 2024-06-01 --include-deleted`,
 	RunE: runHistory,
 }
 

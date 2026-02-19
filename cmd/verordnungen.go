@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var verordnungenCmd = &cobra.Command{
 	Long: `Verordnungsblätter der Länder durchsuchen.
 
 Beispiele:
-  ris verordnungen --search "Wolf" --state tirol
-  ris verordnungen --number 25 --from 2024-01-01`,
+  risgo verordnungen --search "Wolf" --state tirol
+  risgo verordnungen --number 25 --from 2024-01-01`,
 	RunE: runVerordnungen,
 }
 

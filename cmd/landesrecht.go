@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var landesrechtCmd = &cobra.Command{
 	Long: `Österreichische Landesgesetze (Landesrecht) durchsuchen.
 
 Beispiele:
-  ris landesrecht --search "Bauordnung" --state salzburg
-  ris landesrecht --title "Raumordnung" --state wien --json`,
+  risgo landesrecht --search "Bauordnung" --state salzburg
+  risgo landesrecht --title "Raumordnung" --state wien --json`,
 	RunE: runLandesrecht,
 }
 

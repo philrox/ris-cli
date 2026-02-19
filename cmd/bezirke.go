@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var bezirkeCmd = &cobra.Command{
 	Long: `Kundmachungen der Bezirksverwaltungsbehörden durchsuchen.
 
 Beispiele:
-  ris bezirke --state niederoesterreich --search "Bauordnung"
-  ris bezirke --authority "Bezirkshauptmannschaft Innsbruck"`,
+  risgo bezirke --state niederoesterreich --search "Bauordnung"
+  risgo bezirke --authority "Bezirkshauptmannschaft Innsbruck"`,
 	RunE: runBezirke,
 }
 

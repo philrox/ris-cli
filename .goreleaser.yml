@@ -7,7 +7,7 @@ before:
 
 builds:
   - main: .
-    binary: ris
+    binary: risgo
     env:
       - CGO_ENABLED=0
     goos:
@@ -19,9 +19,9 @@ builds:
       - arm64
     ldflags:
       - -s -w
-      - -X github.com/philrox/ris-cli/cmd.version={{.Version}}
-      - -X github.com/philrox/ris-cli/cmd.commit={{.Commit}}
-      - -X github.com/philrox/ris-cli/cmd.date={{.Date}}
+      - -X github.com/philrox/risgo/cmd.version={{.Version}}
+      - -X github.com/philrox/risgo/cmd.commit={{.Commit}}
+      - -X github.com/philrox/risgo/cmd.date={{.Date}}
 
 archives:
   - format: tar.gz
@@ -42,15 +42,16 @@ changelog:
       - "^chore:"
 
 brews:
-  - name: ris
+  - name: risgo
+    directory: Formula
     repository:
       owner: philrox
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    homepage: "https://github.com/philrox/ris-cli"
+    homepage: "https://github.com/philrox/risgo"
     description: "CLI für das Rechtsinformationssystem des Bundes (RIS)"
     license: "MIT"
     install: |
-      bin.install "ris"
+      bin.install "risgo"
     test: |
-      system "#{bin}/ris", "version"
+      system "#{bin}/risgo", "version"

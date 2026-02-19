@@ -1,4 +1,4 @@
-module github.com/philrox/ris-cli
+module github.com/philrox/risgo
 
 go 1.25.6
 

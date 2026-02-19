@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/philrox/ris-cli/internal/model"
+	"github.com/philrox/risgo/internal/model"
 )
 
 func TestJSON_SearchResult(t *testing.T) {

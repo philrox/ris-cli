@@ -12,10 +12,10 @@ A clear and concise description of what the bug is.
 
 ## Command
 
-The exact `ris` command that caused the issue:
+The exact `risgo` command that caused the issue:
 
 ```
-ris ...
+risgo ...
 ```
 
 ## Expected behavior
@@ -32,7 +32,7 @@ paste output here
 
 ## Environment
 
-- `ris version` output:
+- `risgo version` output:
 - OS (e.g., macOS 15, Ubuntu 24.04):
 
 ## Additional context

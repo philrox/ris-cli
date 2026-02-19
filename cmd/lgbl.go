@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var lgblCmd = &cobra.Command{
 	Long: `Landesgesetzblätter (LGBl) durchsuchen.
 
 Beispiele:
-  ris lgbl --number 50 --year 2023 --state wien
-  ris lgbl --search "Bauordnung" --state salzburg`,
+  risgo lgbl --number 50 --year 2023 --state wien
+  risgo lgbl --search "Bauordnung" --state salzburg`,
 	RunE: runLgbl,
 }
 

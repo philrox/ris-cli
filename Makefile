@@ -1,4 +1,4 @@
-BINARY := ris
+BINARY := risgo
 
 .PHONY: build test lint fmt clean install check
 

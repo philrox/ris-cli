@@ -3,8 +3,8 @@ package cmd
 import (
 	"strings"
 
-	"github.com/philrox/ris-cli/internal/api"
-	"github.com/philrox/ris-cli/internal/constants"
+	"github.com/philrox/risgo/internal/api"
+	"github.com/philrox/risgo/internal/constants"
 	"github.com/spf13/cobra"
 )
 
@@ -14,8 +14,8 @@ var gemeindenCmd = &cobra.Command{
 	Long: `Österreichisches Gemeinderecht durchsuchen.
 
 Beispiele:
-  ris gemeinden --municipality "Graz" --search "Parkgebuehren"
-  ris gemeinden --state tirol --title "Gebuehrenordnung"`,
+  risgo gemeinden --municipality "Graz" --search "Parkgebuehren"
+  risgo gemeinden --state tirol --title "Gebuehrenordnung"`,
 	RunE: runGemeinden,
 }
 

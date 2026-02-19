@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/philrox/ris-cli/cmd"
+	"github.com/philrox/risgo/cmd"
 )
 
 func main() {

@@ -1,6 +1,6 @@
-# Contributing to ris-cli
+# Contributing to risgo
 
-Thanks for your interest in contributing to **ris-cli**, a Go CLI tool for searching Austrian legal documents via the [RIS API](https://data.bka.gv.at/ris/api/v2.6/).
+Thanks for your interest in contributing to **risgo**, a Go CLI tool for searching Austrian legal documents via the [RIS API](https://data.bka.gv.at/ris/api/v2.6/).
 
 ## Prerequisites
 
@@ -13,12 +13,12 @@ Thanks for your interest in contributing to **ris-cli**, a Go CLI tool for searc
 1. Fork this repository on GitHub.
 2. Clone your fork:
    ```bash
-   git clone https://github.com/<your-user>/ris-cli.git
-   cd ris-cli
+   git clone https://github.com/<your-user>/risgo.git
+   cd risgo
    ```
 3. Build the binary:
    ```bash
-   go build -o ris .
+   go build -o risgo .
    ```
 4. Run the tests:
    ```bash
@@ -33,13 +33,13 @@ The project ships a `Makefile` with common shortcuts:
 
 | Command       | Description                           |
 |---------------|---------------------------------------|
-| `make build`  | Compile the `ris` binary              |
+| `make build`  | Compile the `risgo` binary            |
 | `make test`   | Run tests with race detector          |
 | `make lint`   | Run `go vet`                          |
 | `make fmt`    | Format code with `go fmt`             |
 | `make check`  | Run fmt, lint, and test in sequence   |
 | `make clean`  | Remove the compiled binary            |
-| `make install`| Install `ris` into your `$GOPATH/bin` |
+| `make install`| Install `risgo` into your `$GOPATH/bin` |
 
 Before opening a pull request, run `make check` to make sure everything is in order.
 
@@ -90,7 +90,7 @@ The CLI output and help text are in **German** because the tool targets Austrian
 
 ## Reporting Bugs
 
-If you find a bug, please [open a GitHub Issue](https://github.com/philrox/ris-cli/issues/new) with:
+If you find a bug, please [open a GitHub Issue](https://github.com/philrox/risgo/issues/new) with:
 
 - A clear description of the problem
 - Steps to reproduce

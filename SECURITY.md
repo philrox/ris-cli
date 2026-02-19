@@ -21,8 +21,8 @@ This CLI has a minimal attack surface:
 
 ## Reporting a Vulnerability
 
-If you discover a security issue, please [open a GitHub Issue](https://github.com/philrox/ris-cli/issues/new) with the label **security**.
+If you discover a security issue, please [open a GitHub Issue](https://github.com/philrox/risgo/issues/new) with the label **security**.
 
-For sensitive issues that should not be disclosed publicly, please use [GitHub's private vulnerability reporting](https://github.com/philrox/ris-cli/security/advisories/new).
+For sensitive issues that should not be disclosed publicly, please use [GitHub's private vulnerability reporting](https://github.com/philrox/risgo/security/advisories/new).
 
 We aim to respond within 7 days.

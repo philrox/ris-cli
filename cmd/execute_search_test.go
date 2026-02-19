@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/philrox/ris-cli/internal/api"
+	"github.com/philrox/risgo/internal/api"
 	"github.com/spf13/cobra"
 )
 
