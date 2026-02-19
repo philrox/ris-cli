@@ -223,8 +223,8 @@ func TestTextDocument_EmptyContent(t *testing.T) {
 
 func TestText_LeitsatzTruncationBoundary(t *testing.T) {
 	tests := []struct {
-		name       string
-		length     int
+		name         string
+		length       int
 		wantEllipsis bool
 	}{
 		{"exactly 200 chars - no truncation", 200, false},

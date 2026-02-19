@@ -65,17 +65,17 @@ var GemeindenApps = map[string]string{
 
 // GemeindenIndex maps CLI index values to API Index values for Gemeinden (Gr only).
 var GemeindenIndex = map[string]string{
-	"undefined":                                        "Undefined",
-	"vertretungskoerperundalgemeineverwaltung":          "VertretungskoerperUndAllgemeineVerwaltung",
-	"oeffentlicheordnungundsicherheit":                  "OeffentlicheOrdnungUndSicherheit",
-	"unterrichterziehungsportunwissenschaft":             "UnterrichtErziehungSportUndWissenschaft",
-	"kunstkulturunddkultus":                             "KunstKulturUndKultus",
-	"sozialewohfahrtundwohnbaufoerderung":                "SozialeWohlfahrtUndWohnbaufoerderung",
-	"gesundheit":                                        "Gesundheit",
-	"strassenundwasserbauverkehr":                        "StraßenUndWasserbauVerkehr",
-	"wirtschaftsfoerderung":                             "Wirtschaftsfoerderung",
-	"dienstleistungen":                                  "Dienstleistungen",
-	"finanzwirtschaft":                                  "Finanzwirtschaft",
+	"undefined": "Undefined",
+	"vertretungskoerperundalgemeineverwaltung": "VertretungskoerperUndAllgemeineVerwaltung",
+	"oeffentlicheordnungundsicherheit":         "OeffentlicheOrdnungUndSicherheit",
+	"unterrichterziehungsportunwissenschaft":   "UnterrichtErziehungSportUndWissenschaft",
+	"kunstkulturunddkultus":                    "KunstKulturUndKultus",
+	"sozialewohfahrtundwohnbaufoerderung":      "SozialeWohlfahrtUndWohnbaufoerderung",
+	"gesundheit":                               "Gesundheit",
+	"strassenundwasserbauverkehr":              "StraßenUndWasserbauVerkehr",
+	"wirtschaftsfoerderung":                    "Wirtschaftsfoerderung",
+	"dienstleistungen":                         "Dienstleistungen",
+	"finanzwirtschaft":                         "Finanzwirtschaft",
 }
 
 // GemeindenSortColumns maps CLI sort-by values to API SortedByColumn values for Gemeinden (Gr only).

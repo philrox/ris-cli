@@ -253,9 +253,9 @@ func TestDirectURLFromPrefixUnknown(t *testing.T) {
 // correct endpoint and applikation for known prefixes.
 func TestSearchFallbackKnownPrefix(t *testing.T) {
 	tests := []struct {
-		docNr       string
-		wantEndpt   string
-		wantApp     string
+		docNr     string
+		wantEndpt string
+		wantApp   string
 	}{
 		{"NOR40026024", "Bundesrecht", "BrKons"},
 		{"JWR_20230101_1234", "Judikatur", "Vwgh"},

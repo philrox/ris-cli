@@ -16,7 +16,7 @@ const (
 
 // AllowedHosts for SSRF protection when fetching document content.
 var AllowedHosts = map[string]bool{
-	"data.bka.gv.at":     true,
-	"www.ris.bka.gv.at":  true,
-	"ris.bka.gv.at":      true,
+	"data.bka.gv.at":    true,
+	"www.ris.bka.gv.at": true,
+	"ris.bka.gv.at":     true,
 }

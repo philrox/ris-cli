@@ -14,7 +14,7 @@ type rawSearchResult struct {
 
 // rawDocumentResults contains hit count and document references.
 type rawDocumentResults struct {
-	Hits json.RawMessage                    `json:"Hits"`
+	Hits json.RawMessage                     `json:"Hits"`
 	Docs FlexibleArray[rawDocumentReference] `json:"OgdDocumentReference"`
 }
 
@@ -32,17 +32,17 @@ type rawDocumentReference struct {
 
 // rawData contains metadata and document list.
 type rawData struct {
-	Metadaten    rawMetadaten    `json:"Metadaten"`
+	Metadaten     rawMetadaten    `json:"Metadaten"`
 	Dokumentliste json.RawMessage `json:"Dokumentliste"`
 }
 
 // rawMetadaten contains technical, general, and domain-specific metadata.
 type rawMetadaten struct {
-	Technisch    rawTechnisch    `json:"Technisch"`
-	Allgemein    rawAllgemein    `json:"Allgemein"`
-	Bundesrecht  json.RawMessage `json:"Bundesrecht,omitempty"`
-	Landesrecht  json.RawMessage `json:"Landesrecht,omitempty"`
-	Judikatur    json.RawMessage `json:"Judikatur,omitempty"`
+	Technisch   rawTechnisch    `json:"Technisch"`
+	Allgemein   rawAllgemein    `json:"Allgemein"`
+	Bundesrecht json.RawMessage `json:"Bundesrecht,omitempty"`
+	Landesrecht json.RawMessage `json:"Landesrecht,omitempty"`
+	Judikatur   json.RawMessage `json:"Judikatur,omitempty"`
 }
 
 type rawTechnisch struct {
@@ -71,11 +71,11 @@ type rawBundesrecht struct {
 
 // rawSubApp is a sub-application section for both Bundesrecht and Landesrecht.
 type rawSubApp struct {
-	Kundmachungsorgan             string         `json:"Kundmachungsorgan"`
-	ArtikelParagraphAnlage        FlexibleString `json:"ArtikelParagraphAnlage"`
-	Inkrafttretensdatum           string         `json:"Inkrafttretensdatum"`
-	Ausserkrafttretensdatum       string         `json:"Ausserkrafttretensdatum"`
-	GesamteRechtsvorschriftURL    string         `json:"GesamteRechtsvorschriftUrl"`
+	Kundmachungsorgan          string         `json:"Kundmachungsorgan"`
+	ArtikelParagraphAnlage     FlexibleString `json:"ArtikelParagraphAnlage"`
+	Inkrafttretensdatum        string         `json:"Inkrafttretensdatum"`
+	Ausserkrafttretensdatum    string         `json:"Ausserkrafttretensdatum"`
+	GesamteRechtsvorschriftURL string         `json:"GesamteRechtsvorschriftUrl"`
 }
 
 // rawLandesrecht is the Landesrecht metadata section.

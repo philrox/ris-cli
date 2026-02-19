@@ -181,8 +181,8 @@ func parseJudikatur(raw json.RawMessage, doc *model.Document) {
 
 	// Find active sub-application. Leitsatz only for Vfgh, Vwgh, Justiz, Bvwg.
 	type judApp struct {
-		app           *rawJustizApp
-		hasLeitsatz   bool
+		app         *rawJustizApp
+		hasLeitsatz bool
 	}
 	apps := []judApp{
 		{jud.Vfgh, true},
