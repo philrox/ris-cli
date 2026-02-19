@@ -28,10 +28,6 @@ func errValidation(format string, args ...any) error {
 
 // newClient creates an API client from the root command's global flags.
 func newClient(cmd *cobra.Command) *api.Client {
-	root := cmd.Root()
-	timeout, _ := root.PersistentFlags().GetDuration("timeout")
-	verbose, _ := root.PersistentFlags().GetBool("verbose")
-
 	return api.NewClient(api.ClientOptions{
 		Timeout: timeout,
 		Verbose: verbose,
@@ -40,16 +36,12 @@ func newClient(cmd *cobra.Command) *api.Client {
 
 // useJSON returns true if --json flag is set on the root command.
 func useJSON(cmd *cobra.Command) bool {
-	root := cmd.Root()
-	j, _ := root.PersistentFlags().GetBool("json")
-	return j
+	return jsonOutput
 }
 
 // isVerbose returns true if --verbose flag is set.
-func isVerbose(cmd *cobra.Command) bool {
-	root := cmd.Root()
-	v, _ := root.PersistentFlags().GetBool("verbose")
-	return v
+func isVerbose() bool {
+	return verbose
 }
 
 // IsTTY reports whether stdout is connected to a terminal.

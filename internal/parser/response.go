@@ -60,17 +60,17 @@ type rawBundesrecht struct {
 	Langtitel string         `json:"Langtitel"`
 	Titel     FlexibleString `json:"Titel"`
 	Eli       string         `json:"Eli"`
-	BrKons    *rawBrKons     `json:"BrKons,omitempty"`
-	Begut     *rawBrKons     `json:"Begut,omitempty"`
-	BgblAuth  *rawBrKons     `json:"BgblAuth,omitempty"`
-	Erv       *rawBrKons     `json:"Erv,omitempty"`
-	BgblPdf   *rawBrKons     `json:"BgblPdf,omitempty"`
-	BgblAlt   *rawBrKons     `json:"BgblAlt,omitempty"`
-	RegV      *rawBrKons     `json:"RegV,omitempty"`
+	BrKons    *rawSubApp     `json:"BrKons,omitempty"`
+	Begut     *rawSubApp     `json:"Begut,omitempty"`
+	BgblAuth  *rawSubApp     `json:"BgblAuth,omitempty"`
+	Erv       *rawSubApp     `json:"Erv,omitempty"`
+	BgblPdf   *rawSubApp     `json:"BgblPdf,omitempty"`
+	BgblAlt   *rawSubApp     `json:"BgblAlt,omitempty"`
+	RegV      *rawSubApp     `json:"RegV,omitempty"`
 }
 
-// rawBrKons is a Bundesrecht sub-application section.
-type rawBrKons struct {
+// rawSubApp is a sub-application section for both Bundesrecht and Landesrecht.
+type rawSubApp struct {
 	Kundmachungsorgan             string         `json:"Kundmachungsorgan"`
 	ArtikelParagraphAnlage        FlexibleString `json:"ArtikelParagraphAnlage"`
 	Inkrafttretensdatum           string         `json:"Inkrafttretensdatum"`
@@ -84,22 +84,13 @@ type rawLandesrecht struct {
 	Langtitel string         `json:"Langtitel"`
 	Titel     FlexibleString `json:"Titel"`
 	Eli       string         `json:"Eli"`
-	LrKons    *rawLrKons     `json:"LrKons,omitempty"`
-	LgblAuth  *rawLrKons     `json:"LgblAuth,omitempty"`
-	Lgbl      *rawLrKons     `json:"Lgbl,omitempty"`
-	LgblNO    *rawLrKons     `json:"LgblNO,omitempty"`
-	Vbl       *rawLrKons     `json:"Vbl,omitempty"`
-	Gr        *rawLrKons     `json:"Gr,omitempty"`
-	GrA       *rawLrKons     `json:"GrA,omitempty"`
-}
-
-// rawLrKons is a Landesrecht sub-application section.
-type rawLrKons struct {
-	Kundmachungsorgan             string         `json:"Kundmachungsorgan"`
-	ArtikelParagraphAnlage        FlexibleString `json:"ArtikelParagraphAnlage"`
-	Inkrafttretensdatum           string         `json:"Inkrafttretensdatum"`
-	Ausserkrafttretensdatum       string         `json:"Ausserkrafttretensdatum"`
-	GesamteRechtsvorschriftURL    string         `json:"GesamteRechtsvorschriftUrl"`
+	LrKons    *rawSubApp     `json:"LrKons,omitempty"`
+	LgblAuth  *rawSubApp     `json:"LgblAuth,omitempty"`
+	Lgbl      *rawSubApp     `json:"Lgbl,omitempty"`
+	LgblNO    *rawSubApp     `json:"LgblNO,omitempty"`
+	Vbl       *rawSubApp     `json:"Vbl,omitempty"`
+	Gr        *rawSubApp     `json:"Gr,omitempty"`
+	GrA       *rawSubApp     `json:"GrA,omitempty"`
 }
 
 // rawJudikatur is the Judikatur metadata section.

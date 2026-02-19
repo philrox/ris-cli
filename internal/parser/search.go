@@ -148,7 +148,7 @@ func parseLandesrecht(raw json.RawMessage, doc *model.Document) {
 		Eli:       lr.Eli,
 	}
 
-	subApp := firstNonNilLR(lr.LrKons, lr.LgblAuth, lr.Lgbl, lr.LgblNO, lr.Vbl, lr.Gr, lr.GrA)
+	subApp := firstNonNil(lr.LrKons, lr.LgblAuth, lr.Lgbl, lr.LgblNO, lr.Vbl, lr.Gr, lr.GrA)
 	if subApp != nil {
 		cit.Kundmachungsorgan = subApp.Kundmachungsorgan
 		cit.Paragraph = subApp.ArtikelParagraphAnlage.String()
@@ -240,16 +240,7 @@ func parseContentURLs(raw json.RawMessage, doc *model.Document) {
 	}
 }
 
-func firstNonNil(ptrs ...*rawBrKons) *rawBrKons {
-	for _, p := range ptrs {
-		if p != nil {
-			return p
-		}
-	}
-	return nil
-}
-
-func firstNonNilLR(ptrs ...*rawLrKons) *rawLrKons {
+func firstNonNil(ptrs ...*rawSubApp) *rawSubApp {
 	for _, p := range ptrs {
 		if p != nil {
 			return p

@@ -39,7 +39,7 @@ func buildBundesrechtResponse(ausserkrafttreten string) []byte {
 		Langtitel: "Testgesetz Langform",
 		Titel:     FlexibleString("Test Titel"),
 		Eli:       "eli/test/2025",
-		BrKons: &rawBrKons{
+		BrKons: &rawSubApp{
 			Kundmachungsorgan:       "BGBl. I Nr. 1/2020",
 			Inkrafttretensdatum:     "2020-01-01",
 			Ausserkrafttretensdatum: ausserkrafttreten,
@@ -88,6 +88,73 @@ func TestNoExpiryDate_RealDatePreserved(t *testing.T) {
 	}
 	if *doc.Citation.Ausserkrafttreten != "2025-01-01" {
 		t.Errorf("expected Ausserkrafttreten = %q, got %q", "2025-01-01", *doc.Citation.Ausserkrafttreten)
+	}
+}
+
+func TestLandesrecht_ParsesWithUnifiedSubApp(t *testing.T) {
+	resp := rawResponse{
+		OgdSearchResult: rawSearchResult{
+			OgdDocumentResults: rawDocumentResults{
+				Hits: json.RawMessage(`1`),
+				Docs: FlexibleArray[rawDocumentReference]{
+					{
+						Data: rawData{
+							Metadaten: rawMetadaten{
+								Technisch: rawTechnisch{
+									ID:          "LR001",
+									Applikation: "LrKons",
+								},
+								Allgemein: rawAllgemein{
+									DokumentURL: "https://example.com/lr",
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	lr := rawLandesrecht{
+		Kurztitel: "TestLandesgesetz",
+		Langtitel: "Testlandesgesetz Langform",
+		Titel:     FlexibleString("LR Titel"),
+		Eli:       "eli/lr/2025",
+		LrKons: &rawSubApp{
+			Kundmachungsorgan:       "LGBl. Nr. 1/2020",
+			Inkrafttretensdatum:     "2020-06-01",
+			Ausserkrafttretensdatum: "2030-12-31",
+		},
+	}
+	lrJSON, _ := json.Marshal(lr)
+	resp.OgdSearchResult.OgdDocumentResults.Docs[0].Data.Metadaten.Landesrecht = lrJSON
+
+	data, _ := json.Marshal(resp)
+	result, err := ParseSearchResponse(data)
+	if err != nil {
+		t.Fatalf("ParseSearchResponse returned error: %v", err)
+	}
+	if len(result.Documents) != 1 {
+		t.Fatalf("expected 1 document, got %d", len(result.Documents))
+	}
+	doc := result.Documents[0]
+	if doc.Kurztitel != "TestLandesgesetz" {
+		t.Errorf("expected Kurztitel %q, got %q", "TestLandesgesetz", doc.Kurztitel)
+	}
+	if doc.Citation == nil {
+		t.Fatal("expected Citation to be non-nil")
+	}
+	if doc.Citation.Kundmachungsorgan != "LGBl. Nr. 1/2020" {
+		t.Errorf("expected Kundmachungsorgan %q, got %q", "LGBl. Nr. 1/2020", doc.Citation.Kundmachungsorgan)
+	}
+	if doc.Citation.Inkrafttreten != "2020-06-01" {
+		t.Errorf("expected Inkrafttreten %q, got %q", "2020-06-01", doc.Citation.Inkrafttreten)
+	}
+	if doc.Citation.Ausserkrafttreten == nil {
+		t.Fatal("expected Ausserkrafttreten to be non-nil")
+	}
+	if *doc.Citation.Ausserkrafttreten != "2030-12-31" {
+		t.Errorf("expected Ausserkrafttreten %q, got %q", "2030-12-31", *doc.Citation.Ausserkrafttreten)
 	}
 }
 

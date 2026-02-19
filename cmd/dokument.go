@@ -99,7 +99,7 @@ func runDokument(cmd *cobra.Command, args []string) error {
 			return outputDocumentContent(cmd, docNumber, directURL, htmlContent)
 		}
 		// Direct URL failed, fall through to search.
-		if isVerbose(cmd) {
+		if isVerbose() {
 			fmt.Fprintf(os.Stderr, "Direkte URL fehlgeschlagen (%v), versuche Suche als Fallback...\n", err)
 		}
 	}

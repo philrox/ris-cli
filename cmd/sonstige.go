@@ -165,7 +165,7 @@ func init() {
 }
 
 // setCommonSonstigeParams sets the common parameters shared by all sonstige sub-commands.
-func setCommonSonstigeParams(cmd *cobra.Command, params *api.Params) {
+func setCommonSonstigeParams(cmd *cobra.Command, params *api.Params) error {
 	search, _ := cmd.Flags().GetString("search")
 	title, _ := cmd.Flags().GetString("title")
 	since, _ := cmd.Flags().GetString("since")
@@ -179,16 +179,19 @@ func setCommonSonstigeParams(cmd *cobra.Command, params *api.Params) {
 	}
 	if since != "" {
 		value, ok := constants.ImRisSeit[strings.ToLower(since)]
-		if ok {
-			params.Set("ImRisSeit", value)
+		if !ok {
+			return errValidation("Fehler: ungültiger --since Wert %q", since)
 		}
+		params.Set("ImRisSeit", value)
 	}
 	if sortDir != "" {
 		value, ok := constants.SortDirections[strings.ToLower(sortDir)]
-		if ok {
-			params.Set("Sortierung.SortDirection", value)
+		if !ok {
+			return errValidation("Fehler: ungültiger --sort-dir Wert %q (gültig: asc, desc)", sortDir)
 		}
+		params.Set("Sortierung.SortDirection", value)
 	}
+	return nil
 }
 
 func executeSonstigeSearch(cmd *cobra.Command, params *api.Params) error {
@@ -198,7 +201,9 @@ func executeSonstigeSearch(cmd *cobra.Command, params *api.Params) error {
 func runMrp(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Mrp")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -232,7 +237,9 @@ func runMrp(cmd *cobra.Command, args []string) error {
 func runErlaesse(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Erlaesse")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -274,7 +281,9 @@ func runErlaesse(cmd *cobra.Command, args []string) error {
 func runUpts(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Upts")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -308,7 +317,9 @@ func runUpts(cmd *cobra.Command, args []string) error {
 func runKmger(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "KmGer")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -342,7 +353,9 @@ func runKmger(cmd *cobra.Command, args []string) error {
 func runAvsv(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Avsv")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -376,7 +389,9 @@ func runAvsv(cmd *cobra.Command, args []string) error {
 func runAvn(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Avn")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -406,7 +421,9 @@ func runAvn(cmd *cobra.Command, args []string) error {
 func runSpg(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "Spg")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")
@@ -448,7 +465,9 @@ func runSpg(cmd *cobra.Command, args []string) error {
 func runPruefgewo(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", "PruefGewO")
-	setCommonSonstigeParams(cmd, params)
+	if err := setCommonSonstigeParams(cmd, params); err != nil {
+		return err
+	}
 
 	from, _ := cmd.Flags().GetString("from")
 	to, _ := cmd.Flags().GetString("to")

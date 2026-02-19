@@ -138,3 +138,14 @@ func TestRegvorl_InvalidMinistry_ReturnsValidationError(t *testing.T) {
 	err := executeCommand("regvorl", "--ministry", "invalid", "--search", "test")
 	assertValidationError(t, err, "ungültiger --ministry Wert")
 }
+
+func TestSonstige_InvalidSince_ReturnsValidationError(t *testing.T) {
+	err := executeCommand("sonstige", "mrp", "--search", "test", "--since", "invalid")
+	assertValidationError(t, err, "ungültiger --since Wert")
+}
+
+func TestSonstige_InvalidSortDir_ReturnsValidationError(t *testing.T) {
+	// Use erlaesse (not mrp) to avoid Cobra flag state leaking from the --since test above.
+	err := executeCommand("sonstige", "erlaesse", "--search", "test", "--sort-dir", "invalid")
+	assertValidationError(t, err, "ungültiger --sort-dir Wert")
+}
