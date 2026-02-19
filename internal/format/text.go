@@ -20,6 +20,13 @@ var (
 	boldYellow = color.New(color.Bold, color.FgYellow).SprintFunc()
 )
 
+const (
+	// separatorWidth is the character width for horizontal rule separators.
+	separatorWidth = 60
+	// maxLeitsatzPreview is the maximum character length for Leitsatz previews in search results.
+	maxLeitsatzPreview = 200
+)
+
 // Text writes search results as human-readable text to the writer.
 func Text(w io.Writer, result model.SearchResult) error {
 	if len(result.Documents) == 0 {
@@ -30,7 +37,7 @@ func Text(w io.Writer, result model.SearchResult) error {
 	// Header with pagination info.
 	fmt.Fprintln(w, bold(fmt.Sprintf("Ergebnisse: %d gesamt (Seite %d, zeige %d)",
 		result.TotalHits, result.Page, len(result.Documents))))
-	fmt.Fprintln(w, dim(strings.Repeat("─", 60)))
+	fmt.Fprintln(w, dim(strings.Repeat("─", separatorWidth)))
 
 	for i, doc := range result.Documents {
 		fmt.Fprintf(w, "\n[%d] %s\n", i+1, boldWhite(docTitle(doc)))
@@ -59,8 +66,8 @@ func Text(w io.Writer, result model.SearchResult) error {
 
 		if doc.Leitsatz != "" {
 			leitsatz := doc.Leitsatz
-			if len(leitsatz) > 200 {
-				leitsatz = leitsatz[:200] + "..."
+			if len(leitsatz) > maxLeitsatzPreview {
+				leitsatz = leitsatz[:maxLeitsatzPreview] + "..."
 			}
 			fmt.Fprintf(w, "    Leitsatz: %s\n", leitsatz)
 		}
@@ -102,7 +109,7 @@ func TextDocument(w io.Writer, doc model.Document, content string) error {
 
 	if content != "" {
 		fmt.Fprintln(w)
-		fmt.Fprintln(w, dim(strings.Repeat("─", 60)))
+		fmt.Fprintln(w, dim(strings.Repeat("─", separatorWidth)))
 		fmt.Fprintln(w)
 		fmt.Fprintln(w, content)
 	}

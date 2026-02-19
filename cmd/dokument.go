@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/philrox/ris-cli/internal/api"
+	"github.com/philrox/ris-cli/internal/constants"
 	"github.com/philrox/ris-cli/internal/format"
 	"github.com/philrox/ris-cli/internal/model"
 	"github.com/philrox/ris-cli/internal/parser"
@@ -108,7 +109,7 @@ func runDokument(cmd *cobra.Command, args []string) error {
 	params := api.NewParams()
 	params.Set("Applikation", applikation)
 	params.Set("Dokumentnummer", docNumber)
-	params.Set("DokumenteProSeite", "Ten")
+	params.Set("DokumenteProSeite", constants.PageSizes[10])
 
 	s2 := startSpinner(cmd, "Suche Dokument-URL...")
 	body, err := client.Search(endpoint, params)

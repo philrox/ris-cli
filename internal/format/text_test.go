@@ -221,6 +221,58 @@ func TestTextDocument_EmptyContent(t *testing.T) {
 	}
 }
 
+func TestText_LeitsatzTruncationBoundary(t *testing.T) {
+	tests := []struct {
+		name       string
+		length     int
+		wantEllipsis bool
+	}{
+		{"exactly 200 chars - no truncation", 200, false},
+		{"201 chars - truncated", 201, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var buf bytes.Buffer
+			leitsatz := strings.Repeat("X", tt.length)
+			result := model.SearchResult{
+				TotalHits: 1,
+				Page:      1,
+				Documents: []model.Document{
+					{
+						Titel:    "Test",
+						Leitsatz: leitsatz,
+					},
+				},
+			}
+
+			if err := Text(&buf, result); err != nil {
+				t.Fatal(err)
+			}
+
+			out := buf.String()
+			hasEllipsis := strings.Contains(out, "...")
+
+			if hasEllipsis != tt.wantEllipsis {
+				t.Errorf("len=%d: ellipsis present = %v, want %v", tt.length, hasEllipsis, tt.wantEllipsis)
+			}
+
+			if tt.wantEllipsis {
+				// When truncated, the output should contain exactly 200 X's followed by "..."
+				truncated := strings.Repeat("X", 200) + "..."
+				if !strings.Contains(out, truncated) {
+					t.Errorf("len=%d: expected truncated output to contain 200 chars + ellipsis", tt.length)
+				}
+			} else {
+				// When not truncated, all original chars should be present
+				if !strings.Contains(out, leitsatz) {
+					t.Errorf("len=%d: expected full Leitsatz in output", tt.length)
+				}
+			}
+		})
+	}
+}
+
 func TestDocTitle_Fallbacks(t *testing.T) {
 	tests := []struct {
 		name string

@@ -112,6 +112,6 @@ func setPageParams(cmd *cobra.Command, params *api.Params) {
 	if ok {
 		params.Set("DokumenteProSeite", pageSize)
 	} else {
-		params.Set("DokumenteProSeite", "Twenty")
+		params.Set("DokumenteProSeite", constants.PageSizes[20])
 	}
 }

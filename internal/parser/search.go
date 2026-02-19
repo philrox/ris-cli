@@ -8,6 +8,9 @@ import (
 	"github.com/philrox/ris-cli/internal/model"
 )
 
+// noExpiryDate is the sentinel value the API uses for laws with no expiry.
+const noExpiryDate = "9999-12-31"
+
 // ParseSearchResponse parses the raw JSON API response into a SearchResult.
 func ParseSearchResponse(data []byte) (model.SearchResult, error) {
 	var raw rawResponse
@@ -121,7 +124,7 @@ func parseBundesrecht(raw json.RawMessage, doc *model.Document) {
 		cit.Paragraph = subApp.ArtikelParagraphAnlage.String()
 		cit.Inkrafttreten = subApp.Inkrafttretensdatum
 		akt := subApp.Ausserkrafttretensdatum
-		if akt != "" && akt != "9999-12-31" {
+		if akt != "" && akt != noExpiryDate {
 			cit.Ausserkrafttreten = &akt
 		}
 		doc.GesamteRechtsvorschriftURL = subApp.GesamteRechtsvorschriftURL
@@ -151,7 +154,7 @@ func parseLandesrecht(raw json.RawMessage, doc *model.Document) {
 		cit.Paragraph = subApp.ArtikelParagraphAnlage.String()
 		cit.Inkrafttreten = subApp.Inkrafttretensdatum
 		akt := subApp.Ausserkrafttretensdatum
-		if akt != "" && akt != "9999-12-31" {
+		if akt != "" && akt != noExpiryDate {
 			cit.Ausserkrafttreten = &akt
 		}
 		doc.GesamteRechtsvorschriftURL = subApp.GesamteRechtsvorschriftURL
