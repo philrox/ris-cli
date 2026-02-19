@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -86,15 +85,5 @@ func initConfig() {
 				timeout = d
 			}
 		}
-	}
-}
-
-// validateLimit checks that limit is a valid page size.
-func validateLimit(limit int) error {
-	switch limit {
-	case 10, 20, 50, 100:
-		return nil
-	default:
-		return fmt.Errorf("ungültiges Limit %d: muss 10, 20, 50 oder 100 sein", limit)
 	}
 }

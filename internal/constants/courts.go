@@ -15,19 +15,3 @@ var Courts = map[string]string{
 	"gbk":         "Gbk",
 	"dok":         "Dok",
 }
-
-// LeitsatzCourts lists courts that support Leitsatz extraction.
-var LeitsatzCourts = map[string]bool{
-	"Vfgh":   true,
-	"Vwgh":   true,
-	"Justiz": true,
-	"Bvwg":   true,
-}
-
-// ValidCourts returns a list of valid CLI court values.
-func ValidCourts() []string {
-	return []string{
-		"justiz", "vfgh", "vwgh", "bvwg", "lvwg",
-		"dsk", "asylgh", "normenliste", "pvak", "gbk", "dok",
-	}
-}

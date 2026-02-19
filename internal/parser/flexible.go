@@ -94,25 +94,3 @@ func (f *FlexibleInt) UnmarshalJSON(data []byte) error {
 	*f = 0
 	return nil
 }
-
-// FlexibleStringArray handles JSON fields that can be a single string
-// or an array of strings.
-type FlexibleStringArray []string
-
-func (f *FlexibleStringArray) UnmarshalJSON(data []byte) error {
-	// Try array first.
-	var arr []string
-	if err := json.Unmarshal(data, &arr); err == nil {
-		*f = arr
-		return nil
-	}
-
-	// Try single string.
-	var s string
-	if err := json.Unmarshal(data, &s); err == nil {
-		*f = []string{s}
-		return nil
-	}
-
-	return fmt.Errorf("cannot unmarshal %s into FlexibleStringArray", string(data))
-}

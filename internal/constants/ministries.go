@@ -35,19 +35,3 @@ var ErlMinistries = map[string]string{
 	"bml":    "Bundesministerium für Land- und Forstwirtschaft, Regionen und Wasserwirtschaft",
 	"bmsgpk": "Bundesministerium für Soziales, Gesundheit, Pflege und Konsumentenschutz",
 }
-
-// ValidRegvorlMinistries returns valid CLI ministry values for regvorl.
-func ValidRegvorlMinistries() []string {
-	return []string{
-		"bka", "bmkoes", "bmeia", "bmaw", "bmbwf", "bmf",
-		"bmi", "bmj", "bmk", "bmlv", "bml", "bmsgpk", "bmffim", "bmeuv",
-	}
-}
-
-// ValidErlasseMinistries returns valid CLI ministry values for erlaesse.
-func ValidErlasseMinistries() []string {
-	return []string{
-		"bka", "bmkoes", "bmeia", "bmaw", "bmbwf", "bmf",
-		"bmi", "bmj", "bmk", "bmlv", "bml", "bmsgpk",
-	}
-}
