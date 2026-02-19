@@ -45,6 +45,11 @@ func Execute() error {
 	return rootCmd.Execute()
 }
 
+// RootCmd returns the root cobra command for doc generation.
+func RootCmd() *cobra.Command {
+	return rootCmd
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 

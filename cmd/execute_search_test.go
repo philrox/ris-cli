@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -183,5 +184,27 @@ func TestExecuteSearch_SetsPageParams(t *testing.T) {
 	}
 	if receivedLimit != "Fifty" {
 		t.Errorf("expected DokumenteProSeite=Fifty, got %q", receivedLimit)
+	}
+}
+
+func TestExecuteSearch_InvalidLimit(t *testing.T) {
+	cmd := setupTestCmd("http://unused")
+	defer os.Unsetenv("RIS_BASE_URL")
+
+	cmd.PersistentFlags().Set("limit", "3")
+
+	params := api.NewParams()
+	params.Set("Suchworte", "test")
+
+	err := executeSearch(cmd, "Bundesrecht", "Suche...", params)
+	if err == nil {
+		t.Fatal("expected validation error for --limit 3, got nil")
+	}
+	var ve *ValidationError
+	if !errors.As(err, &ve) {
+		t.Errorf("expected ValidationError, got %T: %v", err, err)
+	}
+	if !strings.Contains(err.Error(), "--limit") {
+		t.Errorf("expected error to mention --limit, got: %v", err)
 	}
 }

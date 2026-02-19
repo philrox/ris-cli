@@ -69,7 +69,9 @@ func stopSpinner(s *spinner.Spinner) {
 
 // executeSearch runs the common search pipeline: spinner → API call → parse → output.
 func executeSearch(cmd *cobra.Command, endpoint, spinnerMsg string, params *api.Params) error {
-	setPageParams(cmd, params)
+	if err := setPageParams(cmd, params); err != nil {
+		return err
+	}
 
 	client := newClient(cmd)
 	s := startSpinner(cmd, spinnerMsg)
@@ -91,7 +93,8 @@ func executeSearch(cmd *cobra.Command, endpoint, spinnerMsg string, params *api.
 }
 
 // setPageParams sets pagination parameters from the root command's global flags.
-func setPageParams(cmd *cobra.Command, params *api.Params) {
+// Returns a validation error if --limit is not one of the allowed values (10, 20, 50, 100).
+func setPageParams(cmd *cobra.Command, params *api.Params) error {
 	root := cmd.Root()
 	page, _ := root.PersistentFlags().GetInt("page")
 	limit, _ := root.PersistentFlags().GetInt("limit")
@@ -101,9 +104,9 @@ func setPageParams(cmd *cobra.Command, params *api.Params) {
 	}
 
 	pageSize, ok := constants.PageSizes[limit]
-	if ok {
-		params.Set("DokumenteProSeite", pageSize)
-	} else {
-		params.Set("DokumenteProSeite", constants.PageSizes[20])
+	if !ok {
+		return errValidation("ungültiger Wert für --limit: %d (erlaubt: 10, 20, 50, 100)", limit)
 	}
+	params.Set("DokumenteProSeite", pageSize)
+	return nil
 }

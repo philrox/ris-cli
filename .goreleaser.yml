@@ -1,0 +1,54 @@
+version: 2
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - main: .
+    binary: ris
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/philrox/ris-cli/cmd.version={{.Version}}
+      - -X github.com/philrox/ris-cli/cmd.commit={{.Commit}}
+      - -X github.com/philrox/ris-cli/cmd.date={{.Date}}
+
+archives:
+  - format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+brews:
+  - repository:
+      owner: philrox
+      name: homebrew-tap
+    homepage: "https://github.com/philrox/ris-cli"
+    description: "CLI für das Rechtsinformationssystem des Bundes (RIS)"
+    license: "MIT"
+    install: |
+      bin.install "ris"
+    test: |
+      system "#{bin}/ris", "version"
