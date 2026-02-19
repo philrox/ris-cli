@@ -45,6 +45,7 @@ brews:
   - repository:
       owner: philrox
       name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     homepage: "https://github.com/philrox/ris-cli"
     description: "CLI für das Rechtsinformationssystem des Bundes (RIS)"
     license: "MIT"
